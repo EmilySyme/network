@@ -74,3 +74,11 @@ Takes following parameters from command line:
 """
 
 MAGIC_NO = 0x497E
+#The magic number
+
+PORT_RANGE = range(1024,64001)
+#The range of valid ports, from 1024 to 64,000
+
+IP_ADDRESS = 127.0.0.1
+#So the command line doesn't request an IP address all the time
+#This is the Loopback address
