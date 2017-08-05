@@ -30,6 +30,10 @@ class packet_head():
      ##MYSTERY FIELD##
     """
     
+    data_packet = 0
+    acknowledgement_packet = 1
+    
+    
     def __init___(self, magic_no, pack_type, seq_no, data_len):
         self.magic_no = magicno
         self.pack_type = pack_type

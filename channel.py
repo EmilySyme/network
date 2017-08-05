@@ -6,6 +6,12 @@
      """
 
 import packet
+#is the packet class we made earlier
+
+import random
+#is the random number generator
+#random.uniform(0,1)
+#returns float
 
 """
 generates pseudo-random numbers with library
@@ -54,3 +60,8 @@ Reads seven parameters from the command line:
 
 """
 
+MAGIC_NO = 0x497E
+#The magic number
+
+PORT_RANGE = range(1024,64001)
+#The range of valid ports, from 1024 to 64,000
