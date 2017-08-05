@@ -5,6 +5,14 @@
 # Sender
 #===============================================================================
 
+import packet
+#is the packet class we made earlier
+
+import select
+#Is the equivalent of C's select()
+
+import socket
+#I mean we'll probably need it
 
 """
     Other:
@@ -72,3 +80,5 @@ Takes following parameters from command line:
         
     Close program using equivalent of close() on open sockets or files
 """
+
+MAGIC_NO = 0x497E

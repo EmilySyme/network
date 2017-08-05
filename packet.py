@@ -43,7 +43,7 @@ class packet_head():
     
     
     def __init___(self, magic_no, pack_type, seq_no, data_len):
-        self.magic_no = magicno
+        self.magic_no = magic_no
         self.pack_type = pack_type
         self.seq_no = seq_no
         self.data_len = data_len

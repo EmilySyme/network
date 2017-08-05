@@ -5,6 +5,13 @@
 # Receiver
 #===============================================================================
 
+import packet
+#is the packet class we made earlier
+
+import socket
+#I mean we'll probably need it
+
+
 """
     Other:
         Protocol mechanism to detect and handle bit errors
@@ -23,7 +30,7 @@ Takes following parameters from command line:
     
     Checks ports
     Creates/Binds sockets
-    ##Meant to use something like c's connect() ere???
+    ##Meant to use something like c's connect() here???
     Set default receiver to port_num used by channel's c_receiver_in socket
     Opens file with supplied filename for writing
         #aborts receiver when file already exists
@@ -65,3 +72,5 @@ Takes following parameters from command line:
         
     Close program using equivalent of close() on open sockets or files
 """
+
+MAGIC_NO = 0x497E

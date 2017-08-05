@@ -15,6 +15,12 @@ import random
 #random.uniform(0,1)
 #returns float
 
+import select
+#Is the equivalent of C's select()
+
+import socket
+#I mean we'll probably need it
+
 """
 generates pseudo-random numbers with library
 
