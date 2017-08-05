@@ -1,9 +1,11 @@
-"""
- Philippa Richardson and Emily Syme
- 05 August 2017
- COSC 264 - Introduction to Networking and the Internet
- Channel
-     """
+#===============================================================================
+#
+# Philippa Richardson and Emily Syme
+# 05 August 2017
+# COSC 264 - Introduction to Networking and the Internet
+# Channel
+#
+#===============================================================================
 
 import packet
 #is the packet class we made earlier
@@ -17,10 +19,10 @@ import random
 generates pseudo-random numbers with library
 
 Reads seven parameters from the command line:
- -c_sender_in - check is int, port number, range(1024-64,000)
- -c_sender_out - check is int, port number, range(1024-64,000)
- -c_receiver_in - check is int, port number, range(1024-64,000)
- -c_receiver_out - check is int, port number, range(1024-64,000)
+ -c_sender_in - check is int, port number, range(1024-64,001)
+ -c_sender_out - check is int, port number, range(1024-64,001)
+ -c_receiver_in - check is int, port number, range(1024-64,001)
+ -c_receiver_out - check is int, port number, range(1024-64,001)
  -sender_in - check is int, port number from sender - sending packets from channel to sender via cr_out
  -receiver_in - check is int, port number to receiver - sending packets to receiver using c_receiver_out
  -P - int, packet loss rate (greater than or equal to 0, less than 1)

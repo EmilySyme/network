@@ -1,9 +1,9 @@
-"""
- Philippa Richardson and Emily Syme
- 05 August 2017
- COSC 264 - Introduction to Networking and the Internet
- Packet
-     """
+#===============================================================================
+# Philippa Richardson and Emily Syme
+# 05 August 2017
+# COSC 264 - Introduction to Networking and the Internet
+# Packet
+#===============================================================================
 
 class packet_head():
     """
@@ -12,6 +12,8 @@ class packet_head():
      
      pack_type  #distinguishes two packet types: data_packet & acknowledgement_packet
                 #'type' on its own is a python thing already, or this would be 'type'
+                    #data_packet = 0
+                    #acknowledgemen_packet = 1
      
      seq_no     #restricted to the values 0 and 1
      
