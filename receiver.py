@@ -6,6 +6,12 @@
 #===============================================================================
 
 """
+    Other:
+        Protocol mechanism to detect and handle bit errors
+            #Not allowed to use a boolean flag;
+            #IRL channels don't tell user about bit errors
+
+
 Takes following parameters from command line:
     #receiver_in port_num
         #range(1024-64,001)
@@ -56,4 +62,6 @@ Takes following parameters from command line:
         #close output file
         #close all sockets
         #exit program
+        
+    Close program using equivalent of close() on open sockets or files
 """

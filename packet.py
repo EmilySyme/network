@@ -29,7 +29,13 @@ class packet_head():
      Content:
      data         #contains actual data, variable length indicated by data_len
      
-     ##MYSTERY FIELD##
+     Other:
+         Protocol mechanism to detect and handle bit errors
+         #Not allowed to use a boolean flag; IRL channels don't tell user about bit errors
+     
+     
+     Also:
+     ##A MYSTERY FIELD##
     """
     
     data_packet = 0

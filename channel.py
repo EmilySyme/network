@@ -51,6 +51,7 @@ Reads seven parameters from the command line:
         #if packet not dropped:
             #generates uniformly distributed random variate between 0 and 1 (v).
                 #if v < 0.1, channel increments packet data_len by random int range(1,10) from uniform dist.
+            #bit errors noticed in sender and receiver
     Forwards packet
         #if packet not dropped:
             #if packet received on c_sender_in
@@ -59,7 +60,7 @@ Reads seven parameters from the command line:
             #if packet received on c_receiver_in socket
                 #sends the packet to sender via c_sender_out;
                 #sender gets packet via sender_in socket
-
+    Close program using equivalent of close() on open sockets or files
 """
 
 MAGIC_NO = 0x497E
