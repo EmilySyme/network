@@ -7,19 +7,21 @@
 #
 #===============================================================================
 
-import packet
-#is the packet class we made earlier
+#import packet
+##is the packet class we made earlier
 
-import random
-#is the random number generator
-#random.uniform(0,1)
-#returns float
+#import random
+##is the random number generator
+##random.uniform(0,1)
+##returns float
 
-import select
-#Is the equivalent of C's select()
+#import select
+##Is the equivalent of C's select()
 
-import socket
-#I mean we'll probably need it
+#import socket
+##I mean we'll probably need it
+
+import commons
 
 """
 generates pseudo-random numbers with library
@@ -69,16 +71,16 @@ Reads seven parameters from the command line:
     Close program using equivalent of close() on open sockets or files
 """
 
-MAGIC_NO = 0x497E
-#The magic number
+#MAGIC_NO = 0x497E
+##The magic number
 
-PORT_RANGE = range(1024,64001)
-#The range of valid ports, from 1024 to 64,000
+#PORT_RANGE = range(1024,64001)
+##The range of valid ports, from 1024 to 64,000
 
-IP_ADDRESS = 127.0.0.1
-#So the command line doesn't request an IP address all the time
-#This is the Loopback address
+#IP_ADDRESS = 127.0.0.1
+##So the command line doesn't request an IP address all the time
+##This is the Loopback address
 
-DATA_LEN_MAX = 512
-DATA_LEN_MIN = 0
-#Max and min for data_len to avoid having more magic numbers
+#DATA_LEN_MAX = 512
+#DATA_LEN_MIN = 0
+##Max and min for data_len to avoid having more magic numbers

@@ -5,11 +5,13 @@
 # Receiver
 #===============================================================================
 
-import packet
-#is the packet class we made earlier
+#import packet
+##is the packet class we made earlier
 
-import socket
-#I mean we'll probably need it
+#import socket
+##I mean we'll probably need it
+
+import commons
 
 
 """
