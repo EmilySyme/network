@@ -63,3 +63,12 @@ DATA_LEN_MIN = 0
 
 DATA_PACKET = 0
 ACKNOWLEDGEMENT_PACKET = 1
+
+def port_num(port):
+    """Checks that each individiual port number is in the correct port range"""
+    if port not in PORT_RANGE:
+        return False
+    else:
+        return True
+#Needed by sender
+#needed by channel

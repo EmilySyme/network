@@ -20,13 +20,6 @@ def cmd_input():
     """Import information from the command line"""
     command_input = sys.stdin
     return command_input
-
-def port_num(port):
-    """Checks that each individiual port number is in the correct port range"""
-    if port not in PORT_RANGE:
-        return False
-    else:
-        return True
     
 def filename_exists(filename):
     """check if file by that name exists"""
@@ -47,9 +40,9 @@ def param_check(port_sender_in, port_sender_out, port_c_sender_in, filename):
     Creates/Binds Sockets
     Uses connect() on sender_out to set c_sender_in default receiver for port number for channel.py
         """
-    if ( (port_num(port_sender_in)) and
-         (port_num(port_sender_out)) and
-         (port_num(port_c_sender_in)) and
+    if ( (commons.port_num(port_sender_in)) and
+         (commons.port_num(port_sender_out)) and
+         (commons.port_num(port_c_sender_in)) and
          (filename_exists(filename)) ):
         return True
 
@@ -73,7 +66,7 @@ def openfile(filename):
         return infile    
 
 
-def outer_loop(data_length):
+def outer_loop():
     """Initialises the things it needs, then works through the outer loop"""
     
     _next = 0
@@ -84,17 +77,17 @@ def outer_loop(data_length):
     
     n_bytes = 0
     while n_bytes < DATA_LEN_MAX:
-        packet.packet_head(MAGIC_NO, DATA_PACKET, _next, data_length)
         
         if n_bytes == 0:
-            data_len = DATA_LEN_MIN
+            packet.packet_head(MAGIC_NO, DATA_PACKET, _next, DATA_LEN_MIN)
             #assignment states 'and an empty data field'
             exit_flag = True
-            #place this packet into packet buffer, probably with return
-        else:
-            data_len = n_bytes
+            #place this packet into packet buffer, probably with return??
+            
+        else if n_bytes > 0:
+            packet.packet_head(MAGIC_NO, DATA_PACKET, _next, n_bytes)
             #append n_bytes amount of data to it
-            #place this packet into packet buffer, probably with return
+            #place this packet into packet buffer, probably with return??
             
 def inner_loop():
     
