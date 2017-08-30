@@ -18,7 +18,7 @@ import commons
 
 def cmd_input():
     """Import information from the command line"""
-    command_input = input()
+    command_input = sys.stdin
     return command_input
 
 def port_num(port):
@@ -74,8 +74,9 @@ def initialisation():
     
     #print counter result when program completed
     counter = 0
-    
-    
+
+def outer_loop():
+    while 
     
     
         

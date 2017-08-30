@@ -27,6 +27,9 @@ import socket
 import struct
 #I think this is a thing that's needed
 
+import sys
+#could just be for sender, we'll find out
+
 
 import argparse  # for command line arguments
 import datetime  # for getting the date in a pretty way
