@@ -23,6 +23,38 @@
 
 import commons
 
+def cmd_input():
+    """Import information from the command line"""
+    command_input = sys.stdin
+    return command_input
+
+def port_num(port):
+    """Checks that each individiual port number is in the correct port range"""
+    if port not in PORT_RANGE:
+        return False
+    else:
+        return True
+    
+def param_check(port_c_sender_in, port_c_sender_out, port_r_sender_in, port_r_sender_out):
+    """
+    #c_sender_in port_num
+        #range(1024-64,001)
+    #c_sender_out port_num
+        #range(1024-64,001)
+    #r_sender_in port_num
+        #range(1024-64,001)
+    #r_sender_out port_num
+        #range(1024-64,001)
+    
+
+        """
+    if ( (port_num(port_c_sender_in)) and
+         (port_num(port_c_sender_out)) and
+         (port_num(port_r_sender_in)) and
+         (port_num(port_r_sender_out)) ):
+        return True
+
+
 """
 generates pseudo-random numbers with library
 
