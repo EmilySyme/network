@@ -16,12 +16,14 @@
 
 import commons
 
-def cmd_input(stuffFromCMDHere):
-    return thing
+def cmd_input():
+    """Import information from the command line"""
+    command_input = sys.stdin
+    return command_input
 
 def port_num(port):
     """Checks that each individiual port number is in the correct port range"""
-    if port not in range(1024-64001):
+    if port not in PORT_RANGE:
         return False
     else:
         return True
@@ -30,10 +32,8 @@ def filename_exists(filename):
     """check if file by that name exists"""
     if os.path.isfile(filename):
         return True
-    #if filename exists:
-        #return True
-    #else:
-        #return False
+    else:
+        return False
     
 def param_check(port_sender_in, port_sender_out, port_c_sender_in, filename):
     """
@@ -51,9 +51,11 @@ def param_check(port_sender_in, port_sender_out, port_c_sender_in, filename):
          (port_num(port_sender_out)) and
          (port_num(port_c_sender_in)) and
          (filename_exists(filename)) ):
+        return True
+
         
-        #create/bind these sockets here
-        
+def create_bind_connect(param_check_truth):
+    if param_check_truth:
         #create:
         socket_sender_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         socket_sender_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -64,12 +66,17 @@ def param_check(port_sender_in, port_sender_out, port_c_sender_in, filename):
         socket_sender_out.bind(IP_ADDRESS, port_sender_out)
         
         #connect:
-        socket_sender_out.connect(IP_ADDRESS, port_c_sender_in)
-        
-        next = 0
-
-    else:
-        #exit this sender
+        socket_sender_out.connect(IP_ADDRESS, port_c_sender_in)  
+    
+def initialisation():
+    next = 0
+    exit_flag = False
+    
+    #print counter result when program completed
+    counter = 0
+    
+    
+    
     
         
 """
@@ -79,6 +86,7 @@ def param_check(port_sender_in, port_sender_out, port_c_sender_in, filename):
             #IRL channels don't tell user about bit errors
 
 Takes following parameters from command line:
+
     #sender_in port_num
         #range(1024-64,001)
     #sender_out port_num
@@ -86,17 +94,25 @@ Takes following parameters from command line:
     #c_sender_in port_num
         #sender sends to channel through sender_out to c_sender_in
     #file name for file being sent
+        Check that correct file exists
+        #exit sender if file does not exist
     
+    Done
     Checks parameters
+    
+    Done
+    Creation Connection
     Creates/Binds both sockets
     ##Use connect() equivalent on sender_out, set default recever to c_sender_in port_num
-    Check that correct file exists
-        #exit sender if file does not exist
-        
+
+    Done
+    Inititalisation
     Initialise local int variable next to 0 (next = 0)
     Initialise local boolean flag exit_flag to false (exit_flag = false)
     Initialise counter value, how many total packets sent over ender_out socket
         #print when program finished
+    
+    
     
     If sucessful, enter loop:
     
@@ -153,8 +169,17 @@ Takes following parameters from command line:
 #DATA_LEN_MIN = 0
 ##Max and min for data_len to avoid having more magic numbers
 
-def main():
+def sender_main():
     #this isnt happy i broke the thing
     
-    commandline_input = cmd_input(sys.stdin)
-    param_check(commandline_input)
+    p_s_in, p_s_out, p_c_s_in, fname = cmd_input()
+    param_check_truth = param_check(p_s_in, p_s_out, p_c_s_in, fname)
+    if param_check_truth:
+        creation_binding_connection = create_bind_connect()
+    else:
+        #exit the sender because the parameters aren't all there
+        quit()
+        
+
+#Run the program and hope it works!
+sender_main()
