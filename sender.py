@@ -86,7 +86,7 @@ def outer_loop(data_length):
     while n_bytes < DATA_LEN_MAX:
         packet.packet_head(MAGIC_NO, DATA_PACKET, _next, data_length)
         
-        if n == 0:
+        if n_bytes == 0:
             data_len = DATA_LEN_MIN
             #assignment states 'and an empty data field'
             exit_flag = True
@@ -168,6 +168,11 @@ def sender_main():
         data_length = len(data_content)
         creation_binding_connection = create_bind_connect()
         outer = outer_loop(data_length)
+        
+        #close all the things
+        #except for the data_content because that's part of the 'with' function
+        socket_sender_in.close()
+        socket_sender_out.close()
     else:
         #exit the sender because the parameters aren't all there
         quit()
