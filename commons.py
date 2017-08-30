@@ -46,7 +46,7 @@ PORT_RANGE = range(1024,64001)
 #needed by receiver
 #needed by sender
 
-IP_ADDRESS = 127.0.0.1
+IP_ADDRESS = "127.0.0.1"
 #So the command line doesn't request an IP address all the time
 #This is the Loopback address for running on localhost
 #needed by channel

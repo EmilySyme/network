@@ -87,6 +87,7 @@ def initialisation():
 
 Takes following parameters from command line:
 
+    Done
     #sender_in port_num
         #range(1024-64,001)
     #sender_out port_num
@@ -170,12 +171,11 @@ Takes following parameters from command line:
 ##Max and min for data_len to avoid having more magic numbers
 
 def sender_main():
-    #this isnt happy i broke the thing
-    
     p_s_in, p_s_out, p_c_s_in, fname = cmd_input()
     param_check_truth = param_check(p_s_in, p_s_out, p_c_s_in, fname)
     if param_check_truth:
         creation_binding_connection = create_bind_connect()
+        initialise = initialisation()
     else:
         #exit the sender because the parameters aren't all there
         quit()
