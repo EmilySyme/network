@@ -66,17 +66,38 @@ def create_bind_connect(param_check_truth):
         socket_sender_out.bind(IP_ADDRESS, port_sender_out)
         
         #connect:
-        socket_sender_out.connect(IP_ADDRESS, port_c_sender_in)  
+        socket_sender_out.connect(IP_ADDRESS, port_c_sender_in)
+        
+def openfile(filename):
+    with open(filename, 'r', encoding="utf8") as infile:
+        return infile    
+
+
+def outer_loop(data_length):
+    """Initialises the things it needs, then works through the outer loop"""
     
-def initialisation():
-    next = 0
+    _next = 0
     exit_flag = False
     
     #print counter result when program completed
     counter = 0
-
-def outer_loop():
-    while 
+    
+    n_bytes = 0
+    while n_bytes < DATA_LEN_MAX:
+        packet.packet_head(MAGIC_NO, DATA_PACKET, _next, data_length)
+        
+        if n == 0:
+            data_len = DATA_LEN_MIN
+            #assignment states 'and an empty data field'
+            exit_flag = True
+            #place this packet into packet buffer, probably with return
+        else:
+            data_len = n_bytes
+            #append n_bytes amount of data to it
+            #place this packet into packet buffer, probably with return
+            
+def inner_loop():
+    
     
     
         
@@ -140,10 +161,13 @@ def outer_loop():
 
 def sender_main():
     p_s_in, p_s_out, p_c_s_in, fname = cmd_input()
+    
     param_check_truth = param_check(p_s_in, p_s_out, p_c_s_in, fname)
     if param_check_truth:
+        data_content = openfile()
+        data_length = len(data_content)
         creation_binding_connection = create_bind_connect()
-        initialise = initialisation()
+        outer = outer_loop(data_length)
     else:
         #exit the sender because the parameters aren't all there
         quit()

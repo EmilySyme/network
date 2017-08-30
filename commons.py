@@ -59,3 +59,7 @@ DATA_LEN_MIN = 0
 #needed by channel
 #needed by receiver
 #needed by sender
+
+
+DATA_PACKET = 0
+ACKNOWLEDGEMENT_PACKET = 1

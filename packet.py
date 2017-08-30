@@ -13,7 +13,7 @@ class packet_head():
      pack_type  #distinguishes two packet types: data_packet & acknowledgement_packet
                 #'type' on its own is a python thing already, or this would be 'type'
                     #data_packet = 0
-                    #acknowledgemen_packet = 1
+                    #acknowledgement_packet = 1
      
      seq_no     #restricted to the values 0 and 1
      
@@ -43,9 +43,17 @@ class packet_head():
     
     
     def __init___(self, magic_no, pack_type, seq_no, data_len):
+        """"""
         self.magic_no = magic_no
         self.pack_type = pack_type
         self.seq_no = seq_no
         self.data_len = data_len
         #self.mystery_field = a mystery
         
+    def encoder():
+        """I mean I think"""
+        return 0
+        
+    def decoder():
+        """I mean I think"""
+        return 0
