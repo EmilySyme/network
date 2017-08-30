@@ -23,10 +23,10 @@ import socket
 #needed by receiver
 #needed by sender
 
-import connect
-#I mean I think this is a thing we'll need to be importing???
-#if it's a real thing, Sender needs it
+<<<<<<< HEAD
 
+=======
+>>>>>>> f2ffde80f7805a5614bfbfac70760a9e9b188d93
 import struct
 #I think this is a thing that's needed
 

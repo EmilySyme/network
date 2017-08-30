@@ -80,40 +80,7 @@ def initialisation():
     
         
 """
-    Other:
-        Protocol mechanism to detect and handle bit errors
-            #Not allowed to use a boolean flag;
-            #IRL channels don't tell user about bit errors
 
-Takes following parameters from command line:
-
-    Done
-    #sender_in port_num
-        #range(1024-64,001)
-    #sender_out port_num
-        #range(1024-64,001)
-    #c_sender_in port_num
-        #sender sends to channel through sender_out to c_sender_in
-    #file name for file being sent
-        Check that correct file exists
-        #exit sender if file does not exist
-    
-    Done
-    Checks parameters
-    
-    Done
-    Creation Connection
-    Creates/Binds both sockets
-    ##Use connect() equivalent on sender_out, set default recever to c_sender_in port_num
-
-    Done
-    Inititalisation
-    Initialise local int variable next to 0 (next = 0)
-    Initialise local boolean flag exit_flag to false (exit_flag = false)
-    Initialise counter value, how many total packets sent over ender_out socket
-        #print when program finished
-    
-    
     
     If sucessful, enter loop:
     
