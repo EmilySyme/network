@@ -16,6 +16,45 @@
 
 import commons
 
+def cmd_input(stuffFromCMDHere):
+    return thing
+
+def port_num(port):
+    """Checks that each individiual port number is in the correct port range"""
+    if port not in range(1024-64001):
+        return False
+    else:
+        return True
+    
+def filename_exists(filename):
+    """check if file by that name exists"""
+    #if filename exists:
+        #return True
+    #else:
+        #return False
+    
+def param_check(sender_in, sender_out, c_sender_in, filename):
+    """
+    #sender_in port_num
+        #range(1024-64,001)
+    #sender_out port_num
+        #range(1024-64,001)
+    #c_sender_in port_num
+        #sender sends to channel through sender_out to c_sender_in
+    
+    Creates/Binds Sockets
+    Uses connect() on sender_out to set c_sender_in default receiver for port number for channel.py
+        """
+    if ( (port_num(sender_in)) and
+         (port_num(sender_out)) and
+         (port_num(c_sender_in)) and
+         (filename_exists(filename)) ):
+        #create/bind these sockets here
+        #use something called connect() on the sender_out socket, and set its default receiver to the port number used by the channel.py for its c_sender_in socket
+    else:
+        #exit this sender
+    
+        
 """
     Other:
         Protocol mechanism to detect and handle bit errors
