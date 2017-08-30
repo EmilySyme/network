@@ -61,19 +61,20 @@ def create_bind_connect(param_check_truth):
         #connect:
         socket_sender_out.connect(IP_ADDRESS, port_c_sender_in)
         
-def openfile(filename):
-    with open(filename, 'r', encoding="utf8") as infile:
-        return infile    
+#def openfile(filename):
+    #with open(filename, 'r', encoding="utf8") as infile:
+        #return infile    
 
-
-def outer_loop():
-    """Initialises the things it needs, then works through the outer loop"""
-    
+def initialisation():
     _next = 0
     exit_flag = False
     
     #print counter result when program completed
-    counter = 0
+    counter = 0 
+    return: _next, exit_flag, counter
+
+def outer_loop(_next, exit_flag):
+    """Initialises the things it needs, then works through the outer loop"""
     
     n_bytes = 0
     while n_bytes < DATA_LEN_MAX:
@@ -82,40 +83,26 @@ def outer_loop():
             packet.packet_head(MAGIC_NO, DATA_PACKET, _next, DATA_LEN_MIN)
             #assignment states 'and an empty data field'
             exit_flag = True
-            #place this packet into packet buffer, probably with return??
+            #place this packet into packet buffer
+            #packet_buffer = something or other
             
         else if n_bytes > 0:
             packet.packet_head(MAGIC_NO, DATA_PACKET, _next, n_bytes)
             #append n_bytes amount of data to it
-            #place this packet into packet buffer, probably with return??
+            #place this packet into packet buffer
+            #packet_buffer = something or other
             
-def inner_loop():
+def inner_loop(counter):
+    packet_rcvd = False
     
+    while not packet_rvcd:
+        socket_sender_out.send(packet_buffer)
+        counter += 1
+        
     
     
         
 """
-
-    
-    If sucessful, enter loop:
-    
-    Outer loop:
-    Attempt to read max 512 bytes (n) from open file to local buffer
-    Place prepared packet into separate buffer (packet_buffer)
-        #if n == 0, data_packet = 
-            #magic_no = 0x497E
-            #type = data_packet
-            #seq_no = next
-            #data_len = 0
-            #data = NULL (assignment states 'and an empty data field')
-          exit_flag = True
-        if n > 0:
-            #magic_no = 0x497E
-            #type = data_packet
-            #seq_no = next
-            #data_len = n
-            #append n bytes of data
-    
     Inner loop:
     Send packet in packet_buffer to channel via sender_out
     Wait for response packet on socket_in before timeout (1 second)
@@ -136,6 +123,27 @@ def inner_loop():
                 #restart _outer_ loop
         
     Close program using equivalent of close() on open sockets or files
+    
+    
+        If sucessful, enter loop:
+    
+    Half done
+    Outer loop:
+    Attempt to read max 512 bytes (n) from open file to local buffer
+    Place prepared packet into separate buffer (packet_buffer)
+        #if n == 0, data_packet = 
+            #magic_no = 0x497E
+            #type = data_packet
+            #seq_no = next
+            #data_len = 0
+            #data = NULL (assignment states 'and an empty data field')
+          exit_flag = True
+        if n > 0:
+            #magic_no = 0x497E
+            #type = data_packet
+            #seq_no = next
+            #data_len = n
+            #append n bytes of data
 """
 
 #MAGIC_NO = 0x497E
@@ -153,14 +161,17 @@ def inner_loop():
 ##Max and min for data_len to avoid having more magic numbers
 
 def sender_main():
+    timeout = 1
     p_s_in, p_s_out, p_c_s_in, fname = cmd_input()
     
     param_check_truth = param_check(p_s_in, p_s_out, p_c_s_in, fname)
     if param_check_truth:
-        data_content = openfile()
-        data_length = len(data_content)
+        #data_content = openfile()
+        #data_length = len(data_content)
         creation_binding_connection = create_bind_connect()
-        outer = outer_loop(data_length)
+        _next, exit_flag, counter = initialisation()
+        outer_loop(_next, exit_flag)
+        inner_loop(counter)
         
         #close all the things
         #except for the data_content because that's part of the 'with' function
