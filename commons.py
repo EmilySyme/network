@@ -23,10 +23,7 @@ import socket
 #needed by receiver
 #needed by sender
 
-<<<<<<< HEAD
 
-=======
->>>>>>> f2ffde80f7805a5614bfbfac70760a9e9b188d93
 import struct
 #I think this is a thing that's needed
 
