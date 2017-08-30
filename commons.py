@@ -27,6 +27,9 @@ import connect
 #I mean I think this is a thing we'll need to be importing???
 #if it's a real thing, Sender needs it
 
+import struct
+#I think this is a thing that's needed
+
 
 import argparse  # for command line arguments
 import datetime  # for getting the date in a pretty way

@@ -28,12 +28,14 @@ def port_num(port):
     
 def filename_exists(filename):
     """check if file by that name exists"""
+    if os.path.isfile(filename):
+        return True
     #if filename exists:
         #return True
     #else:
         #return False
     
-def param_check(sender_in, sender_out, c_sender_in, filename):
+def param_check(port_sender_in, port_sender_out, port_c_sender_in, filename):
     """
     #sender_in port_num
         #range(1024-64,001)
@@ -45,12 +47,27 @@ def param_check(sender_in, sender_out, c_sender_in, filename):
     Creates/Binds Sockets
     Uses connect() on sender_out to set c_sender_in default receiver for port number for channel.py
         """
-    if ( (port_num(sender_in)) and
-         (port_num(sender_out)) and
-         (port_num(c_sender_in)) and
+    if ( (port_num(port_sender_in)) and
+         (port_num(port_sender_out)) and
+         (port_num(port_c_sender_in)) and
          (filename_exists(filename)) ):
+        
         #create/bind these sockets here
-        #use something called connect() on the sender_out socket, and set its default receiver to the port number used by the channel.py for its c_sender_in socket
+        
+        #create:
+        socket_sender_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        socket_sender_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        socket_c_sender_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        
+        #bind:
+        socket_sender_in.bind(IP_ADDRESS, port_sender_in)
+        socket_sender_out.bind(IP_ADDRESS, port_sender_out)
+        
+        #connect:
+        socket_sender_out.connect(IP_ADDRESS, port_c_sender_in)
+        
+        next = 0
+
     else:
         #exit this sender
     
@@ -139,5 +156,5 @@ Takes following parameters from command line:
 def main():
     #this isnt happy i broke the thing
     
-    in = cmd_input(sys.stdin)
-    param_check(in)
+    commandline_input = cmd_input(sys.stdin)
+    param_check(commandline_input)
