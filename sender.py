@@ -16,6 +16,8 @@
 
 import commons
 
+TIMEOUT = 1000
+
 def cmd_input():
     """Import information from the command line"""
     command_input = sys.stdin
@@ -98,8 +100,6 @@ def inner_loop(counter):
     while not packet_rvcd:
         socket_sender_out.send(packet_buffer)
         counter += 1
-        
-    
     
         
 """
@@ -161,7 +161,6 @@ def inner_loop(counter):
 ##Max and min for data_len to avoid having more magic numbers
 
 def sender_main():
-    timeout = 1
     p_s_in, p_s_out, p_c_s_in, fname = cmd_input()
     
     param_check_truth = param_check(p_s_in, p_s_out, p_c_s_in, fname)
