@@ -135,3 +135,9 @@ Takes following parameters from command line:
 #DATA_LEN_MAX = 512
 #DATA_LEN_MIN = 0
 ##Max and min for data_len to avoid having more magic numbers
+
+def main():
+    #this isnt happy i broke the thing
+    
+    in = cmd_input(sys.stdin)
+    param_check(in)
