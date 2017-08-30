@@ -18,7 +18,7 @@ import commons
 
 def cmd_input():
     """Import information from the command line"""
-    command_input = sys.stdin
+    command_input = input()
     return command_input
 
 def port_num(port):
