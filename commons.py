@@ -25,7 +25,7 @@ import socket
 
 
 import struct
-#I think this is a thing that's needed
+#Needed by packet
 
 import sys
 #could just be for sender, we'll find out

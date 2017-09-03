@@ -75,31 +75,51 @@ def initialisation():
     counter = 0 
     return: _next, exit_flag, counter
 
-def outer_loop(_next, exit_flag):
+def outer_loop(_next, exit_flag, data_content):
     """Initialises the things it needs, then works through the outer loop"""
     
     n_bytes = 0
     while n_bytes < DATA_LEN_MAX:
         
         if n_bytes == 0:
-            packet.packet_head(MAGIC_NO, DATA_PACKET, _next, DATA_LEN_MIN)
+            data_field = packet.packet_head(MAGIC_NO, DATA_PACKET, _next, DATA_LEN_MIN)
+            head = data_field.encrptyer()
             #assignment states 'and an empty data field'
             exit_flag = True
             #place this packet into packet buffer
             #packet_buffer = something or other
             
         else if n_bytes > 0:
-            packet.packet_head(MAGIC_NO, DATA_PACKET, _next, n_bytes)
+            data_field = packet.packet_head(MAGIC_NO, DATA_PACKET, _next, n_bytes)
+            head = data_field.encrptyer()
             #append n_bytes amount of data to it
             #place this packet into packet buffer
             #packet_buffer = something or other
+        packet_buffer = bytearray(head + data_content)
             
-def inner_loop(counter):
+def inner_loop(counter, _next, exit_flag, data_content):
     packet_rcvd = False
     
     while not packet_rvcd:
         socket_sender_out.send(packet_buffer)
         counter += 1
+        ##I think i've got my rcvd stuff wrong here but i can't work out how it might otherwise go?
+        ##Emily, fiiix iiiiiiiiittttt~~~
+        rcvd, _, _ = select.select([socket_sender_out], [], [], TIME_OUT)
+        if not rcvd:
+            inner_loop(counter)
+        #else:
+            #if ((rcvd.magic_no != 0x497E) or
+            #(rcvd.pack_type != acknowledgement_packet) or 
+            #(rcvd.data_len != 0)) or (rcvd.seq_no != next):
+                #inner_loop(counter, _next, exit_flag, data_content)
+            #else:
+                #next -= 1
+                #if exit_flag == True:
+                    #close file --done in the main
+                    #quit()
+                #else:
+                    #outer_loop(_next, exit_flag, data_content)
     
         
 """
@@ -122,6 +142,7 @@ def inner_loop(counter):
             #else:
                 #restart _outer_ loop
         
+    Done
     Close program using equivalent of close() on open sockets or files
     
     
@@ -160,16 +181,18 @@ def inner_loop(counter):
 #DATA_LEN_MIN = 0
 ##Max and min for data_len to avoid having more magic numbers
 
+TIME_OUT = 1000
+
 def sender_main():
     p_s_in, p_s_out, p_c_s_in, fname = cmd_input()
     
     param_check_truth = param_check(p_s_in, p_s_out, p_c_s_in, fname)
     if param_check_truth:
-        #data_content = openfile()
+        data_content = openfile()
         #data_length = len(data_content)
         creation_binding_connection = create_bind_connect()
         _next, exit_flag, counter = initialisation()
-        outer_loop(_next, exit_flag)
+        outer_loop(_next, exit_flag, data_content)
         inner_loop(counter)
         
         #close all the things

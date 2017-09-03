@@ -48,12 +48,15 @@ class packet_head():
         self.pack_type = pack_type
         self.seq_no = seq_no
         self.data_len = data_len
-        #self.mystery_field = a mystery
+        self.pack_format = "jjjj"
         
-    def encoder():
+    def encrypter(self):
         """I mean I think"""
-        return 0
+        encrypt = struct.pack(self.pack_format, self.magic_no, self.pack_type, self.seq_no, self.data_len)
+        return encrypt
         
-    def decoder():
+    def decrypter(encrypt):
         """I mean I think"""
-        return 0
+        pack_format = "jjjj"
+        decrypt = struct.unpack(pack_format, encrypt)
+        return decrypt
