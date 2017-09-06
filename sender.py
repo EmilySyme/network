@@ -77,7 +77,7 @@ def initialisation():
 
 def outer_loop(_next, exit_flag, data_content):
     """Initialises the things it needs, then works through the outer loop"""
-    
+    ##We should probably rename this
     n_bytes = 0
     while n_bytes < DATA_LEN_MAX:
         
@@ -98,6 +98,8 @@ def outer_loop(_next, exit_flag, data_content):
         packet_buffer = bytearray(head + data_content)
             
 def inner_loop(counter, _next, exit_flag, data_content):
+    """I summon Inner Loop in attack mode!"""
+    ##We should probably rename this and properly document it
     packet_rcvd = False
     
     while not packet_rvcd:
