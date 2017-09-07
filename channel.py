@@ -91,7 +91,7 @@ def packet_changes(rcvd, P):
     chan_magic_no, chan_type, chan_seq_no, chan_data_len = packet.decoder(rcvd_packet)
     
     if ( (chan_magic_no != MAGIC_NO) or
-         (packet_drop(P)) ):
+        (packet_drop(P)) ):
         infinite_loop(P)
         
     else:
@@ -114,9 +114,9 @@ def infinite_loop(P):
         
     #receiver in goes to sender out
     elif socket_chan_receiver_in in input_received[0]:
-            rcvd_packet = chan_socket_sender_in.recv()
-            new_packet = packet_changes(rcvd_packet, P)
-            socket_chan_sender_out.send(new_packet)
+        rcvd_packet = chan_socket_sender_in.recv()
+        new_packet = packet_changes(rcvd_packet, P)
+        socket_chan_sender_out.send(new_packet)
     
     infinite_loop(P)
     #Did you mean Recursion?
@@ -141,6 +141,10 @@ def infinite_loop(P):
     
 
 """
+
+#=============================================
+Possibly done, check me!
+#=============================================
  Channel enters an infinite loop, doing:
      #Waits for input on either the c_sender_in or the c_receiver_in socket
      ---uses select() in C in blocking fashion to save CPU time
