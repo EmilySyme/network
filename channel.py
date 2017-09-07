@@ -22,14 +22,13 @@
 ##I mean we'll probably need it
 
 import commons
-#import random
 
 def cmd_input():
     """Import information from the command line"""
     command_input = sys.stdin
     return command_input
     
-def param_check(port_c_sender_in, port_c_sender_out, port_r_sender_in, port_r_sender_out):
+def param_check(port_c_sender_in, port_c_sender_out, port_r_sender_in, port_r_sender_out, sender_in, receiver_in, P):
     """
     #c_sender_in port_num
         #range(1024-64,001)
@@ -42,30 +41,18 @@ def param_check(port_c_sender_in, port_c_sender_out, port_r_sender_in, port_r_se
     
 
         """
+    #What do for sender_in and receiver_in
     if ( (port_num(port_c_sender_in)) and
          (port_num(port_c_sender_out)) and
          (port_num(port_r_sender_in)) and
-         (port_num(port_r_sender_out)) ):
+         (port_num(port_r_sender_out)) and
+         (port_num(sender_in)) and (port_num(receiver_in))
+         and (0 <= P < 1)):
         return True
 
 
 def pseudo_random():
     return random.uniform(0,1)
-
-def read_params():
-    c_sender_in = sys.stdin
-    c_sender_out = sys.stdin
-    c_receiver_in = sys.stdin
-    c_receiver_out = sys.stdin
-    all_good = param_check(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out)
-    if all_good:
-        sender_in = sys.stdin
-        receiver_in = sys.stdin
-        P = sys.stdin
-    else:
-        #some exit status
-        return
-
 
 def create_bind_connect():
     #create:
@@ -87,6 +74,8 @@ def create_bind_connect():
 
 """
 Reads seven parameters from the command line:
+#Mostly done
+#need to double check on the sender/receiver_in
  -c_sender_in - check is int, port number, range(1024-64,001)
  -c_sender_out - check is int, port number, range(1024-64,001)
  -c_receiver_in - check is int, port number, range(1024-64,001)
@@ -95,11 +84,13 @@ Reads seven parameters from the command line:
  -receiver_in - check is int, port number to receiver - sending packets to receiver using c_receiver_out
  -P - int, packet loss rate (greater than or equal to 0, less than 1)
  
+ #done
  ##think the create/bind is working
  Checks above parameters
  Creates/Binds all of the 4 sockets
  ##We should be using something 'connect()' here??? according to the sheet???
  --this is probably a C thing
+ #this isnt being used, what would it be used for?
  ##We should be also using something called 'select()' here??? according to the sheet???
  --this is definitely a C thing
  
@@ -145,3 +136,38 @@ Reads seven parameters from the command line:
 #DATA_LEN_MAX = 512
 #DATA_LEN_MIN = 0
 ##Max and min for data_len to avoid having more magic numbers
+
+def channel_main():
+    c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in, P = cmd_input()
+    check_the_things = param_check(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in, P)
+    if check_the_things:
+        connect_the_things = create_bind_connect()
+        #enter infinite loop here
+        #packet_drop = False
+        #while stuff happens
+        #check something == MAGIC_NO
+        #if no:
+        #stop processing, restart loop
+        #if yes:
+        #v = pseudo_random()
+        #if v < P:
+        #packet_drop = True
+        #restart loop
+        #if !packet_drop:
+        # if packet from c_sender_in:
+        #send packet to c_receiver_out
+        #if packet from c_receiver_in:
+        #send packet to c_sender_out
+        #close program
+        
+        
+        
+        
+    else:
+        #probably a return back to either sender or receiver depending on where it came from?
+        #I'll let you help with this, bc I am not sure
+        quit()
+
+
+#run me some channel        
+channel_main()
