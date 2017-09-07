@@ -79,12 +79,12 @@ def packet_drop(P):
     else:
         return False
     
-    def bit_errors(data_len):
-        """Introduces bit errors"""
-        v = pseudo_random(0, 1)
-        if v < 0.1:
-            new_len = pseudo_random(0, 10)
-            return new_len
+def bit_errors(data_len):
+    """Introduces bit errors"""
+    v = pseudo_random(0, 1)
+    if v < 0.1:
+        new_len = pseudo_random(0, 10)
+        return new_len
         
 def packet_changes(rcvd, P):
     """Just keeping things modular here"""
@@ -120,6 +120,24 @@ def infinite_loop(P):
     
     infinite_loop(P)
     #Did you mean Recursion?
+    
+    #enter infinite loop here
+    #packet_drop = False
+    #while stuff happens
+    #check something == MAGIC_NO
+    #if no:
+    #stop processing, restart loop
+    #if yes:
+    #v = pseudo_random()
+    #if v < P:
+    #packet_drop = True
+    #restart loop
+    #if !packet_drop:
+    # if packet from c_sender_in:
+    #send packet to c_receiver_out
+    #if packet from c_receiver_in:
+    #send packet to c_sender_out
+    #close program    
     
 
 """
