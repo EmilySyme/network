@@ -104,10 +104,7 @@ def packet_changes(rcvd, P):
     
 def infinite_loop(P):
     """"""
-    #recursion
-    
     input_received = select.select([socket_chan_sender_in, chan_recv_in_socket], [], [])
-    
     
     #sender in goes to receiver out    
     if socket_chan_sender_in in input_received[0]:
@@ -120,6 +117,9 @@ def infinite_loop(P):
             rcvd_packet = chan_socket_sender_in.recv()
             new_packet = packet_changes(rcvd_packet, P)
             socket_chan_sender_out.send(new_packet)
+    
+    infinite_loop(P)
+    #Did you mean Recursion?
     
 
 """
