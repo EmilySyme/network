@@ -57,9 +57,14 @@ def read_params():
     c_sender_out = sys.stdin
     c_receiver_in = sys.stdin
     c_receiver_out = sys.stdin
-    sender_in = sys.stdin
-    receiver_in = sys.stdin
-    P = sys.stdin
+    all_good = param_check(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out)
+    if all_good:
+        sender_in = sys.stdin
+        receiver_in = sys.stdin
+        P = sys.stdin
+    else:
+        #some exit status
+        return
 
 
 def create_bind_connect():
