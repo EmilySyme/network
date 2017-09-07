@@ -22,6 +22,7 @@
 ##I mean we'll probably need it
 
 import commons
+#import random
 
 def cmd_input():
     """Import information from the command line"""
@@ -48,9 +49,38 @@ def param_check(port_c_sender_in, port_c_sender_out, port_r_sender_in, port_r_se
         return True
 
 
-"""
-generates pseudo-random numbers with library
+def pseudo_random():
+    return random.uniform(0,1)
 
+def read_params():
+    c_sender_in = sys.stdin
+    c_sender_out = sys.stdin
+    c_receiver_in = sys.stdin
+    c_receiver_out = sys.stdin
+    sender_in = sys.stdin
+    receiver_in = sys.stdin
+    P = sys.stdin
+
+
+def create_bind_connect():
+    #create:
+    c_sender_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    c_sender_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    c_receiver_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    c_receiver_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+    #bind:
+    c_sender_in.bind(IP_ADDRESS, port_sender_in)
+    c_sender_out.bind(IP_ADDRESS, port_sender_out)
+    c_receiver_in.bind(IP_ADDRESS, port_receiver_in)
+    c_receiver_out.bind(IP_ADDRESS, port_receiver_out)
+
+    #connect:
+    ##not sure if this bit is right
+    c_sender_out.connect(IP_ADDRESS, port_c_sender_in)
+    c_receiver_out.connect(IP_ADDRESS, port_c_receiver_in)
+
+"""
 Reads seven parameters from the command line:
  -c_sender_in - check is int, port number, range(1024-64,001)
  -c_sender_out - check is int, port number, range(1024-64,001)
@@ -60,6 +90,7 @@ Reads seven parameters from the command line:
  -receiver_in - check is int, port number to receiver - sending packets to receiver using c_receiver_out
  -P - int, packet loss rate (greater than or equal to 0, less than 1)
  
+ ##think the create/bind is working
  Checks above parameters
  Creates/Binds all of the 4 sockets
  ##We should be using something 'connect()' here??? according to the sheet???
