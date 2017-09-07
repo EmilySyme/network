@@ -14,13 +14,58 @@
 import commons
 
 
+
+def cmd_input():
+    """Import information from the command line"""
+    command_input = sys.stdin
+    return command_input
+
+def param_check(port_receiver_in, port_receiver_out, port_c_receiver_in, filename):
+    """
+    #receiver_in port_num
+        #range(1024-64,001)
+    #receiver_out port_num
+        #range(1024-64,001)
+    #c_receiver_in port_num
+        #receiver sends to channel through receiver_out to c_receiver_in
+    
+    Creates/Binds Sockets
+    Uses connect() on receiver_out to set c_receiver_in default receiver for port number for channel.py
+        """
+    if ( (commons.port_num(port_receiver_in)) and
+         (commons.port_num(port_receiver_out)) and
+         (commons.port_num(port_c_receiver_in)) and
+         (filename_exists(filename)) ):
+        return True
+    
+def create_bind_connect(param_check_truth):
+    if param_check_truth:
+        #create:
+        socket_receiver_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        socket_receiver_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        socket_c_receiver_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        
+        #bind:
+        socket_receiver_in.bind(IP_ADDRESS, port_receiver_in)
+        socket_receiver_out.bind(IP_ADDRESS, port_receiver_out)
+        
+        #connect:
+        socket_receiver_out.connect(IP_ADDRESS, port_c_receiver_in) 
+        
+        
+def write_file(filename):
+    """Opens file with supplied filename for writing
+        #aborts receiver when file already exists"""
+    #OH GODS how do I write things to file?! *crying*
+    
+    
 """
     Other:
         Protocol mechanism to detect and handle bit errors
             #Not allowed to use a boolean flag;
             #IRL channels don't tell user about bit errors
 
-
+Done
 Takes following parameters from command line:
     #receiver_in port_num
         #range(1024-64,001)
@@ -29,15 +74,23 @@ Takes following parameters from command line:
     #c_receiver_in port_num
         #receiver sends to channel through receiver_out to c_receiver_in
     #file name for received file to be stored
-    
+    Done
     Checks ports
+    
+    Done
     Creates/Binds sockets
     ##Meant to use something like c's connect() here???
     Set default receiver to port_num used by channel's c_receiver_in socket
+    
+    Started, not sure how to finish
     Opens file with supplied filename for writing
         #aborts receiver when file already exists
+        
+    Done
     Initialises local int
         #expected = 0
+        
+    #what the fuck is this
     Enters blocking system call loop
     
     Waits on receiver_in for incoming packet
@@ -75,16 +128,43 @@ Takes following parameters from command line:
     Close program using equivalent of close() on open sockets or files
 """
 
-MAGIC_NO = 0x497E
-#The magic number
+def receiver_main():
+    p_r_in, p_r_out, p_r_s_in, fname = cmd_input()
+    
+    param_check_truth = param_check(p_r_in, p_r_out, p_r_s_in, fname)
+    if param_check_truth:
+        data_content = write_file(fname)
+        #data_length = len(data_content)
+        creation_binding_connection = create_bind_connect()
+        expected = 0
+        #_next, exit_flag, counter = initialisation()
+        
+        the_loop(_next, exit_flag, data_content)
+        #inner_loop(counter)
+        
+        #close all the things
+        #except for the data_content because that's part of the 'with' function
+        socket_receiver_in.close()
+        socket_receiver_out.close()
+    else:
+        #exit the receiver because the parameters aren't all there
+        quit()
+        
 
-PORT_RANGE = range(1024,64001)
-#The range of valid ports, from 1024 to 64,000
+#Run the program and hope it works!
+receiver_main()
 
-IP_ADDRESS = 127.0.0.1
-#So the command line doesn't request an IP address all the time
-#This is the Loopback address
+#MAGIC_NO = 0x497E
+##The magic number
 
-DATA_LEN_MAX = 512
-DATA_LEN_MIN = 0
-#Max and min for data_len to avoid having more magic numbers
+#PORT_RANGE = range(1024,64001)
+##The range of valid ports, from 1024 to 64,000
+
+#IP_ADDRESS = 127.0.0.1
+##So the command line doesn't request an IP address all the time
+##This is the Loopback address
+
+#DATA_LEN_MAX = 512
+#DATA_LEN_MIN = 0
+##Max and min for data_len to avoid having more magic numbers
+
