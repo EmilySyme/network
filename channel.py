@@ -131,7 +131,7 @@ def packet_changes(rcvd, P):
         
     else:
         new_data_len = bit_errors(data_len)
-        data_field = packet.packet_head(chan_magic_no, chan_type, chan_seq_no, new_data_len)
+        data_field = packet.packet_head(chan_magic_no, chan_packet_type, chan_seq_no, new_data_len)
         head = data_field.encrptyer()
         packet_buffer = bytearray(head + data_content)  
         return packet_buffer
