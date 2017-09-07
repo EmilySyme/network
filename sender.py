@@ -202,7 +202,7 @@ def sender_main():
         socket_sender_out.close()
     else:
         #exit the sender because the parameters aren't all there
-        quit()
+        sys.exit()
         
 
 #Run the program and hope it works!

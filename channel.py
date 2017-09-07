@@ -109,8 +109,8 @@ def infinite_loop(P):
     """recurrecurrecurrecursionsionsionsion"""
     input_received = select.select([socket_chan_sender_in, socket_chan_receiver_in], [], [])
     
-    if input_received == NULL:
-        exit()
+    if input_received[0] == NULL:
+        return
     
     #sender in goes to receiver out    
     if socket_chan_sender_in in input_received[0]:
@@ -146,7 +146,7 @@ def channel_main():
         channel_close(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in)
      
     else:
-        quit()
+        sys.exit()
 
 
 #run me some channel        

@@ -181,7 +181,7 @@ def receiver_main():
         
     else:
         #exit the receiver because the parameters aren't all there
-        quit()
+        sys.exit()
         
 
 #Run the program and hope it works!
