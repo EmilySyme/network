@@ -104,6 +104,8 @@ def packet_changes(rcvd, P):
     
 def infinite_loop(P):
     """"""
+    #recursion
+    
     input_received = select.select([socket_chan_sender_in, chan_recv_in_socket], [], [])
     
     
