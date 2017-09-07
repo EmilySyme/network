@@ -99,7 +99,7 @@ def create_bind_connect():
 #===========================================
 
 def openfile(filename):
-    """"""
+    """opens the file with a given name, and returns the infile"""
     with open(filename, 'r', encoding="utf8") as infile:
         return infile 
 
@@ -118,14 +118,12 @@ def initialisation():
 
 def outer_loop(_next, exit_flag, data_content):
     """Initialises the things it needs, then works through the outer loop"""
-    ##We should probably rename this
     n_bytes = 0
     while n_bytes < DATA_LEN_MAX:
         
         if n_bytes == 0:
             data_field = packet.packet_head(MAGIC_NO, DATA_PACKET, _next, DATA_LEN_MIN)
             head = data_field.encrptyer()
-            #assignment states 'and an empty data field'
             exit_flag = True
 
         elif n_bytes > 0:
@@ -138,16 +136,14 @@ def outer_loop(_next, exit_flag, data_content):
 
 def inner_loop(counter, _next, exit_flag, data_content):
     """I summon Inner Loop in attack mode!"""
-    ##We should probably rename this and properly document it
     packet_rcvd = False
     
     while not packet_rvcd:
         socket_sender_out.send(packet_buffer)
         counter += 1
-        #I may have fixed it
         rcvd, _, _ = select.select([socket_sender_out], [], [], TIME_OUT)
         if not rcvd:
-            inner_loop(counter)
+            inner_loop(counter, _next, exit_flag, data_content)
         else:
             rcvd_magic_no, rcvd_packet_type, rcvd_seq_no, rcvd_data_len = packet.decoder(rcvd)
             if ((rcvd_magic_no != MAGIC_NO) or
@@ -165,16 +161,16 @@ def inner_loop(counter, _next, exit_flag, data_content):
 #===============================================================================
 
 def sender_main():
+    """runs the code"""
     p_s_in, p_s_out, p_c_s_in, fname = cmd_input()
     
     param_check_truth = param_check(p_s_in, p_s_out, p_c_s_in, fname)
     if param_check_truth:
         data_content = openfile()
-        #data_length = len(data_content)
         creation_binding_connection = create_bind_connect()
         _next, exit_flag, counter = initialisation()
         outer_loop(_next, exit_flag, data_content)
-        inner_loop(counter)
+        inner_loop(counter,_next, exit_flag, data_content)
         
         #close all the things
         #except for the data_content because that's part of the 'with' function
