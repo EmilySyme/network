@@ -15,6 +15,7 @@
 ##I mean we'll probably need it
 
 import commons
+import sys
 
 TIMEOUT = 1000
 
@@ -73,7 +74,7 @@ def initialisation():
     
     #print counter result when program completed
     counter = 0 
-    return: _next, exit_flag, counter
+    return _next, exit_flag, counter
 
 def outer_loop(_next, exit_flag, data_content):
     """Initialises the things it needs, then works through the outer loop"""
@@ -89,7 +90,7 @@ def outer_loop(_next, exit_flag, data_content):
             #place this packet into packet buffer
             #packet_buffer = something or other
             
-        else if n_bytes > 0:
+        elif n_bytes > 0:
             data_field = packet.packet_head(MAGIC_NO, DATA_PACKET, _next, n_bytes)
             head = data_field.encrptyer()
             #append n_bytes amount of data to it
