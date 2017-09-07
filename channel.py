@@ -38,21 +38,17 @@ def param_check(port_c_sender_in, port_c_sender_out, port_r_sender_in, port_r_se
         #range(1024-64,001)
     #r_sender_out port_num
         #range(1024-64,001)
-    
-
         """
     #What do for sender_in and receiver_in
     if ( (port_num(port_c_sender_in)) and
          (port_num(port_c_sender_out)) and
          (port_num(port_r_sender_in)) and
          (port_num(port_r_sender_out)) and
-         (port_num(sender_in)) and (port_num(receiver_in))
-         and (0 <= P < 1)):
+         (port_num(sender_in)) and
+         (port_num(receiver_in)) and
+         (0 <= P < 1) ):
         return True
 
-
-def pseudo_random():
-    return random.uniform(0,1)
 
 def create_bind_connect():
     #create:
@@ -71,29 +67,58 @@ def create_bind_connect():
     ##not sure if this bit is right
     c_sender_out.connect(IP_ADDRESS, port_c_sender_in)
     c_receiver_out.connect(IP_ADDRESS, port_c_receiver_in)
+    
+def pseudo_random(start, end):
+    return random.uniform(start,end)    
+    
+def packet_drop(P):
+    """Drops whole packets!!"""
+    u = pseudo_random(0, 1)
+    if u < P:
+        return True #the packet will be dropped
+    else:
+        return False
+    
+    def bit_errors(data_len):
+        """Introduces bit errors"""
+        v = pseudo_random(0, 1)
+        if v < 0.1:
+            new_len = pseudo_random(0, 10)
+            return new_len
+
+    
+def infinite_loop(P):
+    """"""
+    sender_in = False
+    receiver_in = False
+    #use select to wait for input on the c_s_in or on the c_r_in
+    #returns vaue indicating number of sockets that have data ready
+        #value >= 1 (both sockets may arrive simultaneously)
+        #if value > 1, ALL packets must be processed
+        #fucked if i know how though
+        #rcvd_packet = thingie
+    chan_magic_no, chan_type, chan_seq_no, chan_data_len = packet.decoder(rcvd_packet)
+    #if it's sender:
+    if ( (chan_magic_no != MAGIC_NO) or
+         (packet_drop(P)) ):
+        infinite_loop(P)
+    else:
+        new_data_len = bit_errors(data_len)
+        data_field = packet.packet_head(chan_magic_no, chan_type, chan_seq_no, new_data_len)
+        head = data_field.encrptyer()
+        packet_buffer = bytearray(head + data_content)
+        
+        if received on c_s_in:
+            socket_receiver_out.send(packet_buffer)
+        else:
+            socket_sender_out.send(packet_buffer)
+        
+            
+        
+    
+    
 
 """
-Reads seven parameters from the command line:
-#Mostly done
-#need to double check on the sender/receiver_in
- -c_sender_in - check is int, port number, range(1024-64,001)
- -c_sender_out - check is int, port number, range(1024-64,001)
- -c_receiver_in - check is int, port number, range(1024-64,001)
- -c_receiver_out - check is int, port number, range(1024-64,001)
- -sender_in - check is int, port number from sender - sending packets from channel to sender via cr_out
- -receiver_in - check is int, port number to receiver - sending packets to receiver using c_receiver_out
- -P - int, packet loss rate (greater than or equal to 0, less than 1)
- 
- #done
- ##think the create/bind is working
- Checks above parameters
- Creates/Binds all of the 4 sockets
- ##We should be using something 'connect()' here??? according to the sheet???
- --this is probably a C thing
- #this isnt being used, what would it be used for?
- ##We should be also using something called 'select()' here??? according to the sheet???
- --this is definitely a C thing
- 
  Channel enters an infinite loop, doing:
      #Waits for input on either the c_sender_in or the c_receiver_in socket
      ---uses select() in C in blocking fashion to save CPU time
@@ -121,6 +146,33 @@ Reads seven parameters from the command line:
                 #sends the packet to sender via c_sender_out;
                 #sender gets packet via sender_in socket
     Close program using equivalent of close() on open sockets or files
+    #=============================================
+    Half done
+    #============================================= 
+    
+    #need to double check on the sender/receiver_in
+ -c_sender_in - check is int, port number, range(1024-64,001)
+ -c_sender_out - check is int, port number, range(1024-64,001)
+ -c_receiver_in - check is int, port number, range(1024-64,001)
+ -c_receiver_out - check is int, port number, range(1024-64,001)
+ -sender_in - check is int, port number from sender - sending packets from channel to sender via cr_out
+ -receiver_in - check is int, port number to receiver - sending packets to receiver using c_receiver_out
+ -P - int, packet loss rate (greater than or equal to 0, less than 1)
+    #=============================================
+    Done
+    #=============================================
+    Reads seven parameters from the command line:
+
+ 
+ #done
+ ##think the create/bind is working
+ Checks above parameters
+ Creates/Binds all of the 4 sockets
+ ##We should be using something 'connect()' here??? according to the sheet???
+ --this is probably a C thing
+ #this isnt being used, what would it be used for?
+ ##We should be also using something called 'select()' here??? according to the sheet???
+ --this is definitely a C thing
 """
 
 
@@ -144,6 +196,7 @@ def channel_main():
     check_the_things = param_check(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in, P)
     if check_the_things:
         connect_the_things = create_bind_connect()
+        infinite_loop(P)
         #enter infinite loop here
         #packet_drop = False
         #while stuff happens
