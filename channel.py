@@ -132,6 +132,8 @@ Reads seven parameters from the command line:
     Close program using equivalent of close() on open sockets or files
 """
 
+
+
 #MAGIC_NO = 0x497E
 ##The magic number
 
