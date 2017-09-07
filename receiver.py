@@ -64,9 +64,9 @@ def cmd_input():
 
 def param_check(port_receiver_in, port_receiver_out, port_c_receiver_in):
     """"""
-    if ( (commons.port_num(port_receiver_in)) and
-         (commons.port_num(port_receiver_out)) and
-         (commons.port_num(port_c_receiver_in))):
+    if ( (port_num(port_receiver_in)) and
+         (port_num(port_receiver_out)) and
+         (port_num(port_c_receiver_in))):
         return True
 
 #===========================================
@@ -86,11 +86,12 @@ def create_bind_connect():
 
 #===========================================
 
-def write_file(filename):
-    """Opens file with supplied filename for writing
-        #aborts receiver when file already exists"""
-    #OH GODS how do I write things to file?! *crying*
-    #Emily, fiiiiiixxxxxxxxx iiiiiiiitttttttt~~~~~
+def write_file(packet):
+    """takes a packet and appends it to the end of the
+    receivedpackets.txt file"""
+    receiver_file = open('receivedpackets.txt', 'a')
+    receiver_file.write(packet)  #use this to write to the file
+    receiver_file.close() 
 
 #===========================================
 
@@ -103,29 +104,28 @@ def acknowledged(seq_no):
 
 #===========================================
 
-def call_loop(write_file, expected):
+def call_loop(expected):
     """"""
     #I think this might be how to do it; apparently select can be blocking too, from the stuff in the assignment info
     rcvd_packet = select.select([socket_receiver_in], [], [])
     rcvd_magic_no, rcvd_type, rcvd_seq_no, rcvd_data_len = packet.decoder(rcvd_packet)
     if ( (magic_no != MAGIC_NO) or
         (packet_type != DATA_PACKET) ):
-        call_loop(magic_no, write_file, received)
+        call_loop(expected)
     else:
         acknowledged(rcvd_seq_no)
         if (rcvd_seq_no != expected):
-            call_loop(write_file, expected)
+            call_loop(expected)
         else:
             expected = 1 - expected
             if (rcvd_data_len > 0):
-                #append data to write_file somehow
-                call_loop(write_file, expected)
+                write_file(rcvd_packet)
+                call_loop(expected)
             else:
                 #close all the things
                 socket_receiver_in.close()
-                socket_receiver_out.close()
-                #close the data_write somehow, probably                
-                quit()
+                socket_receiver_out.close()                
+                return
 
 
 #===============================================================================
@@ -139,10 +139,8 @@ def receiver_main():
     
     if param_check_truth:
         data_write = write_file(fname)
-        #data_length = len(data_content)
         creation_binding_connection = create_bind_connect()
         expected = 0
-        #_next, exit_flag, counter = initialisation()
         call_loop(data_write, expected)
         
     else:
