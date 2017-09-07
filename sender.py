@@ -103,9 +103,6 @@ def inner_loop(counter, _next, exit_flag, data_content):
     packet_rcvd = False
     
     while not packet_rvcd:
-        #subprocess.check_call()
-        #subprocess.call()
-        ##not sure where either of these would go, or what they do specifically, but they are the blocking system calls used in python
         socket_sender_out.send(packet_buffer)
         counter += 1
         ##I think i've got my rcvd stuff wrong here but i can't work out how it might otherwise go?

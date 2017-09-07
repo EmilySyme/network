@@ -56,17 +56,46 @@ def write_file(filename):
         #aborts receiver when file already exists"""
     #OH GODS how do I write things to file?! *crying*
     
-def call_loop(magic_no, write_file, received):
+def acknowledged(seq_no):
+    """"""
+    acknowledge_packet = packet.packet_head(MAGIC_NO, ACKNOWLEDGEMENT_PACKET, seq_no, 0)
+    head = acknowledge_packet.encoder()
+    packet_buffer = bytearray(head)
+    socket_receiver_out.send(packet_buffer)
+    
+def call_loop(write_file, expected):
     #Enters blocking system call loop
     #Waits on receiver_in for incoming packet
-        ##uses blocking call 
-    if magic_no != MAGIC_NO:
+        ##uses blocking call
+    #subprocess.check_call() goes here somehow
+    #rcvd_packet = #receive the packet here
+    rcvd_magic_no, rcvd_type, rcvd_seq_no, rcvd_data_len = packet.decoder(rcvd_packet)
+    if ( (magic_no != MAGIC_NO) or
+        (packet_type != DATA_PACKET) ):
         call_loop(magic_no, write_file, received)
+    else:
+        acknowledged(rcvd_seq_no)
+        if (rcvd_seq_no != expected):
+            call_loop(write_file, expected)
+        else:
+            expected = 1 - expected
+            if (rcvd_data_len > 0):
+                #append data to write_file somehow
+                call_loop(write_file, expected)
+            else:
+                #close all the things
+                socket_receiver_in.close()
+                socket_receiver_out.close()
+                #close the data_write somehow, probably                
+                quit()
+      
+    
+    
     
 """
-        
-    #what the fuck is this
     Enters blocking system call loop
+            #subprocess.check_call()
+        #subprocess.call()
     
     Waits on receiver_in for incoming packet
         #uses blocking call
@@ -148,14 +177,8 @@ def receiver_main():
         creation_binding_connection = create_bind_connect()
         expected = 0
         #_next, exit_flag, counter = initialisation()
-        received = something #help!
-        magic_no = 0x497E
-        call_loop(magic_no, data_write, received)
+        call_loop(data_write, expected)
         
-        #close all the things
-        socket_receiver_in.close()
-        socket_receiver_out.close()
-        #close the data_write somehow, probably
     else:
         #exit the receiver because the parameters aren't all there
         quit()

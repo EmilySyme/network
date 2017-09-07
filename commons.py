@@ -64,6 +64,7 @@ DATA_LEN_MIN = 0
 
 
 DATA_PACKET = 0
+#Needed by receiver
 ACKNOWLEDGEMENT_PACKET = 1
 
 def port_num(port):
