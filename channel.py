@@ -127,7 +127,7 @@ def packet_changes(rcvd, P):
     
     if ( (chan_magic_no != MAGIC_NO) or
         (packet_drop(P)) ):
-        infinite_loop(P)
+        packet_received_loop(P)
         
     else:
         new_data_len = bit_errors(data_len)
@@ -138,7 +138,7 @@ def packet_changes(rcvd, P):
 
 #===========================================
 
-def infinite_loop(P):
+def packet_received_loop(P):
     """Is the packet_received loop. Runs infinitely, until there is nothing in the input_received[0]"""
     input_received = select.select([socket_chan_sender_in, socket_chan_receiver_in], [], [])
     
@@ -157,7 +157,7 @@ def infinite_loop(P):
         new_packet = packet_changes(rcvd_packet, P)
         socket_chan_sender_out.send(new_packet)
         
-    infinite_loop(P)
+    packet_received_loop(P)
 
 #===========================================
 
