@@ -52,21 +52,21 @@ def param_check(port_c_sender_in, port_c_sender_out, port_r_sender_in, port_r_se
 
 def create_bind_connect():
     #create:
-    c_sender_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    c_sender_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    c_receiver_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    c_receiver_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    socket_chan_sender_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    socket_chan_sender_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    socket_chan_receiver_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    socket_chan_receiver_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     #bind:
-    c_sender_in.bind(IP_ADDRESS, port_sender_in)
-    c_sender_out.bind(IP_ADDRESS, port_sender_out)
-    c_receiver_in.bind(IP_ADDRESS, port_receiver_in)
-    c_receiver_out.bind(IP_ADDRESS, port_receiver_out)
+    socket_chan_sender_in.bind(IP_ADDRESS, port_sender_in)
+    socket_chan_sender_out.bind(IP_ADDRESS, port_sender_out)
+    socket_chan_receiver_in.bind(IP_ADDRESS, port_receiver_in)
+    socket_chan_receiver_out.bind(IP_ADDRESS, port_receiver_out)
 
     #connect:
     ##not sure if this bit is right
-    c_sender_out.connect(IP_ADDRESS, port_c_sender_in)
-    c_receiver_out.connect(IP_ADDRESS, port_c_receiver_in)
+    socket_chan_sender_out.connect(IP_ADDRESS, port_c_sender_in)
+    socket_chan_receiver_out.connect(IP_ADDRESS, port_c_receiver_in)
     
 def pseudo_random(start, end):
     return random.uniform(start,end)    
@@ -85,37 +85,39 @@ def packet_drop(P):
         if v < 0.1:
             new_len = pseudo_random(0, 10)
             return new_len
-
-    
-def infinite_loop(P):
-    """"""
-    sender_in = False
-    receiver_in = False
-    #use select to wait for input on the c_s_in or on the c_r_in
-    #returns vaue indicating number of sockets that have data ready
-        #value >= 1 (both sockets may arrive simultaneously)
-        #if value > 1, ALL packets must be processed
-        #fucked if i know how though
-        #rcvd_packet = thingie
+        
+def packet_changes(rcvd, P):
+    """Just keeping things modular here"""
     chan_magic_no, chan_type, chan_seq_no, chan_data_len = packet.decoder(rcvd_packet)
-    #if it's sender:
+    
     if ( (chan_magic_no != MAGIC_NO) or
          (packet_drop(P)) ):
         infinite_loop(P)
+        
     else:
         new_data_len = bit_errors(data_len)
         data_field = packet.packet_head(chan_magic_no, chan_type, chan_seq_no, new_data_len)
         head = data_field.encrptyer()
-        packet_buffer = bytearray(head + data_content)
-        
-        if received on c_s_in:
-            socket_receiver_out.send(packet_buffer)
-        else:
-            socket_sender_out.send(packet_buffer)
-        
-            
-        
+        packet_buffer = bytearray(head + data_content)  
+        return packet_buffer
+
     
+def infinite_loop(P):
+    """"""
+    input_received = select.select([socket_chan_sender_in, chan_recv_in_socket], [], [])
+    
+    
+    #sender in goes to receiver out    
+    if socket_chan_sender_in in input_received[0]:
+        rcvd_packet = chan_socket_sender_in.recv()
+        new_packet = packet_changes(rcvd_packet, P)
+        socket_chan_receiver_out.send(new_packet)
+        
+    #receiver in goes to sender out
+    elif socket_chan_receiver_in in input_received[0]:
+            rcvd_packet = chan_socket_sender_in.recv()
+            new_packet = packet_changes(rcvd_packet, P)
+            socket_chan_sender_out.send(new_packet)
     
 
 """
