@@ -50,8 +50,7 @@ def param_check(port_sender_in, port_sender_out, port_c_sender_in, filename):
         return True
 
         
-def create_bind_connect(param_check_truth):
-    if param_check_truth:
+def create_bind_connect():
         #create:
         socket_sender_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         socket_sender_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -64,9 +63,9 @@ def create_bind_connect(param_check_truth):
         #connect:
         socket_sender_out.connect(IP_ADDRESS, port_c_sender_in)
         
-#def openfile(filename):
-    #with open(filename, 'r', encoding="utf8") as infile:
-        #return infile    
+def openfile(filename):
+    with open(filename, 'r', encoding="utf8") as infile:
+        return infile    
 
 def initialisation():
     _next = 0

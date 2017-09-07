@@ -20,7 +20,7 @@ def cmd_input():
     command_input = sys.stdin
     return command_input
 
-def param_check(port_receiver_in, port_receiver_out, port_c_receiver_in, filename):
+def param_check(port_receiver_in, port_receiver_out, port_c_receiver_in):
     """
     #receiver_in port_num
         #range(1024-64,001)
@@ -34,12 +34,10 @@ def param_check(port_receiver_in, port_receiver_out, port_c_receiver_in, filenam
         """
     if ( (commons.port_num(port_receiver_in)) and
          (commons.port_num(port_receiver_out)) and
-         (commons.port_num(port_c_receiver_in)) and
-         (filename_exists(filename)) ):
+         (commons.port_num(port_c_receiver_in))):
         return True
     
-def create_bind_connect(param_check_truth):
-    if param_check_truth:
+def create_bind_connect():
         #create:
         socket_receiver_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         socket_receiver_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -58,37 +56,14 @@ def write_file(filename):
         #aborts receiver when file already exists"""
     #OH GODS how do I write things to file?! *crying*
     
+def call_loop(magic_no, write_file, received):
+    #Enters blocking system call loop
+    #Waits on receiver_in for incoming packet
+        ##uses blocking call 
+    if magic_no != MAGIC_NO:
+        call_loop(magic_no, write_file, received)
     
 """
-    Other:
-        Protocol mechanism to detect and handle bit errors
-            #Not allowed to use a boolean flag;
-            #IRL channels don't tell user about bit errors
-
-Done
-Takes following parameters from command line:
-    #receiver_in port_num
-        #range(1024-64,001)
-    #receiver_out port_num
-        #range(1024-64,001)
-    #c_receiver_in port_num
-        #receiver sends to channel through receiver_out to c_receiver_in
-    #file name for received file to be stored
-    Done
-    Checks ports
-    
-    Done
-    Creates/Binds sockets
-    ##Meant to use something like c's connect() here???
-    Set default receiver to port_num used by channel's c_receiver_in socket
-    
-    Started, not sure how to finish
-    Opens file with supplied filename for writing
-        #aborts receiver when file already exists
-        
-    Done
-    Initialises local int
-        #expected = 0
         
     #what the fuck is this
     Enters blocking system call loop
@@ -126,6 +101,41 @@ Takes following parameters from command line:
         #exit program
         
     Close program using equivalent of close() on open sockets or files
+
+#========================================
+Half done:
+    Opens file with supplied filename for writing
+        #aborts receiver when file already exists
+#============================================
+Done, moved from top:
+#===========================================
+    Other:
+        Protocol mechanism to detect and handle bit errors
+            #Not allowed to use a boolean flag;
+            #IRL channels don't tell user about bit errors
+#===========================================
+Done
+Takes following parameters from command line:
+    #receiver_in port_num
+        #range(1024-64,001)
+    #receiver_out port_num
+        #range(1024-64,001)
+    #c_receiver_in port_num
+        #receiver sends to channel through receiver_out to c_receiver_in
+    #file name for received file to be stored
+    Done
+    Checks ports
+    
+    Done
+    Creates/Binds sockets
+    ##Meant to use something like c's connect() here???
+    Set default receiver to port_num used by channel's c_receiver_in socket
+
+        
+    Done
+    Initialises local int
+        #expected = 0
+
 """
 
 def receiver_main():
@@ -133,19 +143,19 @@ def receiver_main():
     
     param_check_truth = param_check(p_r_in, p_r_out, p_r_s_in, fname)
     if param_check_truth:
-        data_content = write_file(fname)
+        data_write = write_file(fname)
         #data_length = len(data_content)
         creation_binding_connection = create_bind_connect()
         expected = 0
         #_next, exit_flag, counter = initialisation()
-        
-        the_loop(_next, exit_flag, data_content)
-        #inner_loop(counter)
+        received = something #help!
+        magic_no = 0x497E
+        call_loop(magic_no, data_write, received)
         
         #close all the things
-        #except for the data_content because that's part of the 'with' function
         socket_receiver_in.close()
         socket_receiver_out.close()
+        #close the data_write somehow, probably
     else:
         #exit the receiver because the parameters aren't all there
         quit()
