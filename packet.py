@@ -42,7 +42,7 @@ class packet_head():
     acknowledgement_packet = 1
     
     
-    def __init___(self, magic_no, pack_type, seq_no, data_len):
+    def __init__(self, magic_no, pack_type, seq_no, data_len):
         """"""
         self.magic_no = magic_no
         self.pack_type = pack_type
