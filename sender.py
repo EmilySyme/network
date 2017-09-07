@@ -89,15 +89,11 @@ def outer_loop(_next, exit_flag, data_content):
             head = data_field.encrptyer()
             #assignment states 'and an empty data field'
             exit_flag = True
-            #place this packet into packet buffer
-            #packet_buffer = something or other
-            
+
         elif n_bytes > 0:
             data_field = packet.packet_head(MAGIC_NO, DATA_PACKET, _next, n_bytes)
             head = data_field.encrptyer()
-            #append n_bytes amount of data to it
-            #place this packet into packet buffer
-            #packet_buffer = something or other
+
         packet_buffer = bytearray(head + data_content)
             
 def inner_loop(counter, _next, exit_flag, data_content):
@@ -114,9 +110,9 @@ def inner_loop(counter, _next, exit_flag, data_content):
         if not rcvd:
             inner_loop(counter)
         #else:
-            #if ((rcvd.magic_no != 0x497E) or
-            #(rcvd.pack_type != acknowledgement_packet) or 
-            #(rcvd.data_len != 0)) or (rcvd.seq_no != next):
+            #if ((rcvd_magic_no != 0x497E) or
+            #(rcvd_pack_type != acknowledgement_packet) or 
+            #(rcvd_data_len != 0)) or (rcvd_seq_no != next):
                 #inner_loop(counter, _next, exit_flag, data_content)
             #else:
                 #next -= 1
@@ -186,7 +182,6 @@ def inner_loop(counter, _next, exit_flag, data_content):
 #DATA_LEN_MIN = 0
 ##Max and min for data_len to avoid having more magic numbers
 
-TIME_OUT = 1000
 
 def sender_main():
     p_s_in, p_s_out, p_c_s_in, fname = cmd_input()
@@ -202,6 +197,7 @@ def sender_main():
         
         #close all the things
         #except for the data_content because that's part of the 'with' function
+        print(counter)
         socket_sender_in.close()
         socket_sender_out.close()
     else:
