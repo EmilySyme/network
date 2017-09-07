@@ -16,6 +16,7 @@ import select
 #Is the equivalent of C's select()
 #needed by channel
 #needed by sender
+#might be needed by receiver
 
 import socket
 #I mean we'll probably need it
@@ -58,7 +59,6 @@ IP_ADDRESS = "127.0.0.1"
 DATA_LEN_MAX = 512
 DATA_LEN_MIN = 0
 #Max and min for data_len to avoid having more magic numbers
-#needed by channel
 #needed by receiver
 #needed by sender
 

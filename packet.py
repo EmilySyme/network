@@ -36,6 +36,7 @@ class packet_head():
      
      Also:
      ##A MYSTERY FIELD##
+     which we have labelled pack_format because that's probably what it is, it's a string, it's declaring that it's making a string
     """
     
     data_packet = 0

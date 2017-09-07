@@ -169,13 +169,16 @@ def channel_close(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, send
     c_receiver_out.close()
     sender_in.close()
     receiver_in.close()
-    
-#===========================================
+
+
+#===============================================================================
 
 def channel_main():
     """Runs the channels"""
     c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in, P = cmd_input()
+    
     param_check_true = param_check(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in, P)
+    
     if param_check_true:
         creation_binding_connection = create_bind_connect()
         packet_received_loop(P) 
@@ -184,7 +187,6 @@ def channel_main():
     else:
         sys.exit()
 
-#===================
-
 #runs the code and hopes it works
 channel_main()
+#===============================================================================
