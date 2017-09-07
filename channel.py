@@ -123,7 +123,7 @@ def bit_errors(data_len):
 
 def packet_changes(rcvd, P):
     """Changes the packets as required"""
-    chan_magic_no, chan_type, chan_seq_no, chan_data_len = packet.decoder(rcvd_packet)
+    chan_magic_no, chan_packet_type, chan_seq_no, chan_data_len = packet.decoder(rcvd_packet)
     
     if ( (chan_magic_no != MAGIC_NO) or
         (packet_drop(P)) ):
