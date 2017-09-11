@@ -92,7 +92,9 @@ def create_bind_connect():
 
     #connect:
     socket_chan_sender_out.connect(IP_ADDRESS, port_c_sender_in)
+    print("connected channel out")
     socket_chan_receiver_out.connect(IP_ADDRESS, port_c_receiver_in)
+    print("connected receiver out")
 
 #===========================================
 

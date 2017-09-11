@@ -82,7 +82,8 @@ def create_bind_connect():
         socket_receiver_out.bind(IP_ADDRESS, port_receiver_out)
         
         #connect:
-        socket_receiver_out.connect(IP_ADDRESS, port_c_receiver_in) 
+        socket_receiver_out.connect(IP_ADDRESS, port_c_receiver_in)
+        print("help me")
 
 #===========================================
 
@@ -141,6 +142,7 @@ def receiver_main():
         data_write = write_file(fname)
         creation_binding_connection = create_bind_connect()
         expected = 0
+        #now use the new connected socket from accept 
         call_loop(data_write, expected)
         
     else:

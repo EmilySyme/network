@@ -95,6 +95,7 @@ def create_bind_connect():
     
     #connect:
     socket_sender_out.connect(IP_ADDRESS, port_c_sender_in)
+    print("check me fam")
 
 #===========================================
 
