@@ -73,9 +73,9 @@ def param_check(port_receiver_in, port_receiver_out, port_c_receiver_in):
 
 def create_bind_connect():
         #create:
-        socket_receiver_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_receiver_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_c_receiver_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        socket_receiver_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+        socket_receiver_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+        socket_c_receiver_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
         
         #bind:
         socket_receiver_in.bind(IP_ADDRESS, port_receiver_in)
