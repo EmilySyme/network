@@ -89,12 +89,32 @@ def create_bind_connect():
     socket_chan_sender_out.bind(IP_ADDRESS, port_sender_out)
     socket_chan_receiver_in.bind(IP_ADDRESS, port_receiver_in)
     socket_chan_receiver_out.bind(IP_ADDRESS, port_receiver_out)
-
+    
+    #probably want this as listen then connect
+    #the other two should be the opposite to what is in here
+    
     #connect:
     socket_chan_sender_out.connect(IP_ADDRESS, port_c_sender_in)
     print("connected channel out")
     socket_chan_receiver_out.connect(IP_ADDRESS, port_c_receiver_in)
     print("connected receiver out")
+    
+    #maybe put this in a while loop until it connects
+    
+    #listen:
+    socket_chan_sender_out.listen(5)
+    #so the one that is being connected needs to be listened for in the next one 
+    #so whatever sender is sending out to connect to channel,
+    #channel needs to listen for that 
+    print("senpai plz notice sender")
+    socket_chan_receiver_out.listen(5) #put a time to wait for
+    print("senpai plz notice receiver")
+    
+    #accept:
+    (port_c_sender_in, add) = socket_chan_sender_out.accept()
+    print("channel connected from sender yeeeeee boiiii")
+    (port_c_receiver_in, add) = socket_chan_receiver_out.accept()
+    print("channel connected to receiver woop")
 
 #===========================================
 

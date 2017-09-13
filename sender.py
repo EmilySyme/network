@@ -96,6 +96,14 @@ def create_bind_connect():
     #connect:
     socket_sender_out.connect(IP_ADDRESS, port_c_sender_in)
     print("check me fam")
+    
+    #listen:
+    socket_sender_out.listen(IP_ADDRESS, port_c_sender_in)
+    print("u wanna hook up, bae?")
+    
+    #accept:
+    (socket_sender_in, add) = socket_c_sender_in.accept()
+    print("Senpai noticed me!")
 
 #===========================================
 
