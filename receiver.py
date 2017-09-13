@@ -84,6 +84,13 @@ def create_bind_connect():
         #connect:
         socket_receiver_out.connect(IP_ADDRESS, port_c_receiver_in)
         print("help me")
+        
+        #listen:
+        socket_receiver_out.listen(IP_ADDRESS, port_c_receiver_in)
+        
+        #accept:
+        (socket_receiver_in, add) = socket_c_receiver_in.accept()
+        
 
 #===========================================
 

@@ -95,6 +95,18 @@ def create_bind_connect():
     print("connected channel out")
     socket_chan_receiver_out.connect(IP_ADDRESS, port_c_receiver_in)
     print("connected receiver out")
+    
+    #listen:
+    socket_chan_sender_out.listen(IP_ADDRESS, port_c_sender_in)
+    print("senpai plz notice sender")
+    socket_chan_receiver_out.listen(IP_ADDRESS, port_c_receiver_in)
+    print("senpai plz notice receiver")
+    
+    #accept:
+    (port_c_sender_in, add) = socket_chan_sender_in.accept()
+    print("channel connected from sender yeeeeee boiiii")
+    (port_c_receiver_in, add) = socket_chan_receiver_in.accept()
+    print("channel connected to receiver woop")
 
 #===========================================
 
