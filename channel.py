@@ -79,10 +79,10 @@ def create_bind_connect():
     """creates the socket, binds the socket, and connects the sockets"""
     
     #create:
-    socket_chan_sender_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    socket_chan_sender_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    socket_chan_receiver_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    socket_chan_receiver_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    socket_chan_sender_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_chan_sender_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_chan_receiver_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_chan_receiver_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
 
     #bind:
     socket_chan_sender_in.bind(IP_ADDRESS, port_sender_in)

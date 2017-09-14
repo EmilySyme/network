@@ -72,24 +72,24 @@ def param_check(port_receiver_in, port_receiver_out, port_c_receiver_in):
 #===========================================
 
 def create_bind_connect():
-        #create:
-        socket_receiver_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_receiver_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_c_receiver_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    #create:
+    socket_receiver_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_receiver_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_c_receiver_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    
+    #bind:
+    socket_receiver_in.bind(IP_ADDRESS, port_receiver_in)
+    socket_receiver_out.bind(IP_ADDRESS, port_receiver_out)
         
-        #bind:
-        socket_receiver_in.bind(IP_ADDRESS, port_receiver_in)
-        socket_receiver_out.bind(IP_ADDRESS, port_receiver_out)
-        
-        #connect:
-        socket_receiver_out.connect(IP_ADDRESS, port_c_receiver_in)
-        print("help me")
-        
-        #listen:
-        socket_receiver_out.listen(IP_ADDRESS, port_c_receiver_in)
-        
-        #accept:
-        (socket_receiver_in, add) = socket_c_receiver_in.accept()
+    #connect:
+    socket_receiver_out.connect(IP_ADDRESS, port_c_receiver_in)
+    print("help me")
+    
+    #listen:
+    socket_receiver_out.listen(IP_ADDRESS, port_c_receiver_in)
+    
+    #accept:
+    (socket_receiver_in, add) = socket_c_receiver_in.accept()
         
 
 #===========================================

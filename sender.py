@@ -84,10 +84,15 @@ def param_check(port_sender_in, port_sender_out, port_c_sender_in, filename):
 
 def create_bind_connect():
     """creates the socket, binds the socket, and connects the sockets"""
+       
+    #APPARENTLY we could just leave all of these as socket.socket();
+    #but leaving it like this for clarity
+    #also lazy
+    
     #create:
-    socket_sender_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    socket_sender_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    socket_c_sender_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    socket_sender_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_sender_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_c_sender_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
     
     #bind:
     socket_sender_in.bind(IP_ADDRESS, port_sender_in)
