@@ -181,7 +181,6 @@ def packet_received_loop(P, port_sender_in, port_receiver_in, socket_chan_sender
 
     input_received = select.select([port_sender_in, port_receiver_in], [], [])
 
-    input_received = select.select([socket_chan_sender_in, socket_chan_receiver_in], [], [])
     print("Input received")
 
     
