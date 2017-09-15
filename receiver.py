@@ -153,13 +153,13 @@ def receiver_main():
     parser.add_argument("p_r_in", type=int, help="receiver socket in")
     parser.add_argument("p_r_out", type=int, help="receiver socket out") 
     parser.add_argument("p_r_s_in", type=int, help="channel socket")
+    parser.add_argument("fname", type=str, help="filename of file being sent")
     args = parser.parse_args()    
 
     
-    param_check_truth = param_check(args.p_r_in, args.p_r_out, args.p_r_s_in)
+    param_check_truth = param_check(args.p_r_in, args.p_r_out, args.p_r_s_in, args.fname)
     
     if param_check_truth:
-        data_write = write_file(fname)
         creation_binding_connection = create_bind_connect()
         expected = 0
         #now use the new connected socket from accept 
