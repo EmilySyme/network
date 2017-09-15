@@ -83,7 +83,7 @@ def param_check(port_receiver_in, port_receiver_out, port_c_receiver_in, filenam
 
 #===========================================
 
-def create_bind_connect():
+def create_bind_connect(port_receiver_in, port_receiver_out, port_c_receiver_in):
     #create:
     #Connects to socket_chan_receiver_out from channel.py
     socket_receiver_in = socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -93,11 +93,11 @@ def create_bind_connect():
     socket_c_receiver_in = socket(socket.AF_INET, socket.SOCK_STREAM)
     
     #bind:
-    socket_receiver_in.bind(IP_ADDRESS, port_receiver_in)
-    socket_receiver_out.bind(IP_ADDRESS, port_receiver_out)
+    socket_receiver_in.bind((IP_ADDRESS, port_receiver_in))
+    socket_receiver_out.bind((IP_ADDRESS, port_receiver_out))
         
     #connect:
-    socket_receiver_out.connect(IP_ADDRESS, port_c_receiver_in)
+    socket_receiver_out.connect((IP_ADDRESS, port_c_receiver_in))
     print("help me")
     
     #listen:
@@ -169,7 +169,7 @@ def receiver_main():
     param_check_truth = param_check(args.p_r_in, args.p_r_out, args.p_r_s_in, args.fname)
     
     if param_check_truth:
-        creation_binding_connection = create_bind_connect()
+        creation_binding_connection = create_bind_connect(args.p_r_in, args.p_r_out, args.p_r_s_in)
         expected = 0
         #now use the new connected socket from accept 
         call_loop(data_write, expected)
