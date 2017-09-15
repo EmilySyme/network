@@ -18,7 +18,8 @@ import random  # is for the random number generator, returns float
 
 import select  # Is the equivalent of C's select()
 
-from socket import socket  # Needed for sockets
+#from socket import socket  # Needed for sockets
+import socket
 
 import sys  # Needed to close things properly, amongst other things
 
@@ -76,14 +77,14 @@ def create_bind_connect():
     print("OHAI, channel is creating")
     #create:
     #channel.py receives from sender.py socket_sender_out via socket_c_sender_in
-    socket_chan_sender_in = socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket_chan_sender_in = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     #channel.py sends to sender.py socket_sender_in
-    socket_chan_sender_out = socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket_chan_sender_out = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
     #channel.py receives from receiver.py socket_receiver_out via socket)_c_recever_in
-    socket_chan_receiver_in = socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket_chan_receiver_in = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     #channel.py sends to receiver.py socket_receiver_in
-    socket_chan_receiver_out = socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket_chan_receiver_out = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     print("OHAI, channel is binding")
     #bind:
