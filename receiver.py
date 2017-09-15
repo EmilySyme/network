@@ -64,11 +64,21 @@ def port_num(port):
 
 #===========================================
 
-def param_check(port_receiver_in, port_receiver_out, port_c_receiver_in):
+def filename_exists(filename):
+    """Check if file by that name exists"""
+    if os.path.isfile(filename):
+        return True
+    else:
+        return False
+
+#===========================================
+
+def param_check(port_receiver_in, port_receiver_out, port_c_receiver_in, filename):
     """"""
     if ( (port_num(port_receiver_in)) and
          (port_num(port_receiver_out)) and
-         (port_num(port_c_receiver_in))):
+         (port_num(port_c_receiver_in)) and
+         (filename_exists(filename))):
         return True
 
 #===========================================
