@@ -111,6 +111,8 @@ def create_bind_connect(port_receiver_in, port_receiver_out, port_c_receiver_in)
             (socket_receiver_in, add) = socket_c_receiver_in.accept()
             print("senpai accepted receiver")
             connected = True
+        except:
+            
         
 
 #===========================================

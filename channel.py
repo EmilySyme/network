@@ -98,35 +98,40 @@ def create_bind_connect(port_c_sender_in, port_c_sender_out, port_c_receiver_in,
    
     
     #maybe put this in a while loop until it connects
-    
-    print("OHAI, channel is listening")
-    #listen:
-    socket_chan_sender_in.listen(CONNECTION_WAIT)
-    #so the one that is being connected needs to be listened for in the next one 
-    #so whatever sender is sending out to connect to channel,
-    #channel needs to listen for that 
-    print("senpai plz notice sender")
-    
-    #receiver listen
-    socket_chan_receiver_in.listen(CONNECTION_WAIT) #put a time to wait for
-    print("senpai plz notice receiver")
-    
-    print("OHAI, channel is connecting")
-    #sender connect:
-    socket_chan_sender_out.connect((IP_ADDRESS, port_sender_in))
-    print("connected channel out")
-    
-    #receiver connect
-    socket_chan_receiver_out.connect((IP_ADDRESS, port_receiver_in))
-    print("connected receiver out")    
-    
-    print("OHAI, channel is accepting")
-    #accept:
-    ##shouldn't these be socket_chan_receiver_in?
-    (port_sender_in, add) = socket_chan_sender_in.accept()
-    print("channel connected from sender yeeeeee boiiii")
-    (port_receiver_in, add) = socket_chan_receiver_in.accept()
-    print("channel connected to receiver woop")
+    connected = False
+    while not connected:
+        try:    
+            print("OHAI, channel is listening")
+            #listen:
+            socket_chan_sender_in.listen(CONNECTION_WAIT)
+            #so the one that is being connected needs to be listened for in the next one 
+            #so whatever sender is sending out to connect to channel,
+            #channel needs to listen for that 
+            print("senpai plz notice sender")
+            
+            #receiver listen
+            socket_chan_receiver_in.listen(CONNECTION_WAIT) #put a time to wait for
+            print("senpai plz notice receiver")
+            
+            print("OHAI, channel is connecting")
+            #sender connect:
+            socket_chan_sender_out.connect((IP_ADDRESS, port_sender_in))
+            print("connected channel out")
+            
+            #receiver connect
+            socket_chan_receiver_out.connect((IP_ADDRESS, port_receiver_in))
+            print("connected receiver out")    
+            
+            print("OHAI, channel is accepting")
+            #accept:
+            ##shouldn't these be socket_chan_receiver_in?
+            (port_sender_in, add) = socket_chan_sender_in.accept()
+            print("channel connected from sender yeeeeee boiiii")
+            (port_receiver_in, add) = socket_chan_receiver_in.accept()
+            print("channel connected to receiver woop")
+            connected = True
+        except:
+            
     
     return port_sender_in, port_receiver_in, socket_chan_sender_out, socket_chan_receiver_out, port_sender_in, port_receiver_in
 

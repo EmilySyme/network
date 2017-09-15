@@ -109,7 +109,7 @@ def create_bind_connect(port_sender_in, port_sender_out, port_c_sender_in):
     
     connected = False
     while not connected:
-        try:    
+        try:
             #connect:
             socket_sender_out.connect((IP_ADDRESS, port_c_sender_in))
             print("check me fam")        
@@ -122,6 +122,7 @@ def create_bind_connect(port_sender_in, port_sender_out, port_c_sender_in):
             (socket_sender_in, add) = socket_c_sender_in.accept()
             print("Senpai noticed me!")
             connected = True
+        except:
 
 #===========================================
 
