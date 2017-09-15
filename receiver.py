@@ -169,7 +169,9 @@ def receiver_main():
     param_check_truth = param_check(args.p_r_in, args.p_r_out, args.p_r_s_in, args.fname)
     
     if param_check_truth:
+        print("Params check out")
         creation_binding_connection = create_bind_connect(args.p_r_in, args.p_r_out, args.p_r_s_in)
+        print("connected")
         expected = 0
         #now use the new connected socket from accept 
         call_loop(data_write, expected)
