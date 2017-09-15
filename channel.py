@@ -81,10 +81,23 @@ def param_check(port_c_sender_in, port_c_sender_out, port_r_sender_in, port_r_se
 def create_bind_connect():
     """creates the socket, binds the socket, and connects the sockets"""
     
+    ##Connects to socket_chan_receiver_out from channel.py
+    #socket_receiver_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    ##Connects to socket_chan_receiver_in from channel.py via socket_c_receiver_in here
+    #socket_receiver_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    ##receiver.py sends to channel.py through socket_receiver_out to socket_chan_receiver_in
+    #socket_c_receiver_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)    
+    
+    
     #create:
+    #channel.py receives from sender.py socket_sender_out via socket_c_sender_in
     socket_chan_sender_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    #channel.py sends to sender.py socket_sender_in
     socket_chan_sender_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    
+    #channel.py receives from receiver.py socket_receiver_out via socket)_c_recever_in
     socket_chan_receiver_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    #channel.py sends to receiver.py socket_receiver_in
     socket_chan_receiver_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
 
     #bind:
