@@ -70,7 +70,7 @@ def param_check(port_c_sender_in, port_c_sender_out, port_c_receiver_in, port_c_
 
 #===========================================
 
-def create_bind_connect(port_c_sender_in, port_c_sender_out, port_c_receiver_in, port_c_receiver_out, port_sender_in, port_receiver_in,):
+def create_bind_connect(port_c_sender_in, port_c_sender_out, port_c_receiver_in, port_c_receiver_out, port_sender_in, port_receiver_in):
     """creates the socket, binds the socket, and connects the sockets""" 
     
     print("OHAI, channel is creating")
@@ -119,10 +119,12 @@ def create_bind_connect(port_c_sender_in, port_c_sender_out, port_c_receiver_in,
     print("OHAI, channel is accepting")
     #accept:
     ##shouldn't these be socket_chan_receiver_in?
-    (port_sender_in, add) = socket_chan_sender_out.accept()
+    (port_sender_in, add) = socket_chan_sender_in.accept()
     print("channel connected from sender yeeeeee boiiii")
-    (port_receiver_in, add) = socket_chan_receiver_out.accept()
+    (port_receiver_in, add) = socket_chan_receiver_in.accept()
     print("channel connected to receiver woop")
+    
+    return 
 
 #===========================================
 
@@ -234,8 +236,8 @@ def channel_main():
     
     if param_check_true:
         create_bind_connect(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in)
-        packet_received_loop(P) 
-        channel_close(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in)
+        packet_received_loop(args.P) 
+        channel_close(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in)
      
     else:
         sys.exit()
