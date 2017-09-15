@@ -93,7 +93,7 @@ def create_bind_connect():
     socket_chan_receiver_out.bind(IP_ADDRESS, port_receiver_out)
     
     #probably want this as listen then connect
-    #the other two should be the opposite to what is in here
+    #the other two might need to be the opposite to what is in here
     
    
     
@@ -209,7 +209,6 @@ def channel_close(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, send
 
 def channel_main():
     """Runs the channels"""
-    print("now taking input")
     parser = argparse.ArgumentParser()
     
     parser.add_argument("c_sender_in", help="The channel's sender in port number; 1024 <= port <= 64001",
@@ -227,15 +226,13 @@ def channel_main():
     parser.add_argument("P", help="The channel's packet loss rate; 0 <= P < 1",
                         type=float)       
     args = parser.parse_args()
-    print("is input on????")
     
     
     #c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in, P = cmd_input()
     
-    param_check_true = param_check(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in, P)
+    param_check_true = param_check(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in, args.P)
     
     if param_check_true:
-        print("everything fine yo!")
         create_bind_connect()
         packet_received_loop(P) 
         channel_close(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in)
