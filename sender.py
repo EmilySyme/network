@@ -25,6 +25,9 @@ import socket
 import sys
 #Needed to close things properly, amongst other things
 
+import argparse
+#Needed for reading from standard input 
+
 
 #===========================================
 #GLOBAL Variables
@@ -59,10 +62,15 @@ def port_num(port):
 
 #===========================================
 
-def cmd_input():
-    """Import information from the command line"""
-    command_input = sys.stdin
-    return command_input
+#def cmd_input():
+#    """Import information from the command line"""
+#    parser = argparse.ArgumentParser()
+#    args = parser.parse_args()
+#    parser.add_argument("x", type=int, help="the base")
+#    parser.add_argument("y", type=int, help="the exponent")    
+#    print("Printing args")
+#    print(args)
+#    return args
 
 #===========================================
 
@@ -77,9 +85,9 @@ def filename_exists(filename):
 
 def param_check(port_sender_in, port_sender_out, port_c_sender_in, filename):
     """Just returns true if all of the parameters required are true"""
-    if ( (commons.port_num(port_sender_in)) and
-         (commons.port_num(port_sender_out)) and
-         (commons.port_num(port_c_sender_in)) and
+    if ( (port_num(port_sender_in)) and
+         (port_num(port_sender_out)) and
+         (port_num(port_c_sender_in)) and
          (filename_exists(filename)) ):
         return True
 
@@ -188,9 +196,17 @@ def inner_loop(counter, _next, exit_flag, data_content):
 
 def sender_main():
     """runs the code"""
-    p_s_in, p_s_out, p_c_s_in, fname = cmd_input()
+    #p_s_in, p_s_out, p_c_s_in, fname = cmd_input()
     
-    param_check_truth = param_check(p_s_in, p_s_out, p_c_s_in, fname)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("p_s_in", type=int, help="sender socket in")
+    parser.add_argument("p_s_out", type=int, help="sender socket out") 
+    parser.add_argument("p_c_s_in", type=int, help="channel socket")
+    parser.add_argument("fname", type=str, help="filename wanting to be sent")
+    args = parser.parse_args()
+   
+    
+    param_check_truth = param_check(args.p_s_in, args.p_s_out, args.p_c_s_in, args.fname)
     if param_check_truth:
         data_content = openfile()
         creation_binding_connection = create_bind_connect()
