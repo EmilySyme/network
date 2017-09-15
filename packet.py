@@ -65,11 +65,11 @@ class packet_head():
         
     def encoder(self):
         """I mean I think"""
-        encrypt = struct.pack(self.pack_format, self.magic_no, self.pack_type, self.seq_no, self.data_len)
-        return encrypt
+        encode = struct.pack(self.pack_format, self.magic_no, self.pack_type, self.seq_no, self.data_len)
+        return encode
         
-    def decoder(encrypt):
+    def decoder(encode):
         """I mean I think"""
         pack_format = "iiii"
-        decrypt = struct.unpack(pack_format, encrypt)
-        return decrypt
+        decode = struct.unpack(pack_format, encode)
+        return decode

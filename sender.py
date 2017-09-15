@@ -150,12 +150,12 @@ def outer_loop(_next, exit_flag, data_content):
         
         if n_bytes == 0:
             data_field = packet.packet_head(MAGIC_NO, DATA_PACKET, _next, DATA_LEN_MIN)
-            head = data_field.encrptyer()
+            head = data_field.encoder()
             exit_flag = True
 
         elif n_bytes > 0:
             data_field = packet.packet_head(MAGIC_NO, DATA_PACKET, _next, n_bytes)
-            head = data_field.encrptyer()
+            head = data_field.encoder()
 
         packet_buffer = bytearray(head + data_content)
 
