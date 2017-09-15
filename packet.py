@@ -42,6 +42,10 @@ class packet_head():
     data_packet = 0
     acknowledgement_packet = 1
     
+    #DATA_LEN_MAX = 512
+    #DATA_LEN_MIN = 0
+    ##Max and min for data_len to avoid having more magic numbers    
+    
     
     def __init__(self, magic_no, pack_type, seq_no, data_len):
         """"""
@@ -49,7 +53,7 @@ class packet_head():
         self.pack_type = pack_type
         self.seq_no = seq_no
         self.data_len = data_len
-        self.pack_format = "jjjj"
+        self.pack_format = "iiii"
         
     def encrypter(self):
         """I mean I think"""
@@ -58,6 +62,6 @@ class packet_head():
         
     def decrypter(encrypt):
         """I mean I think"""
-        pack_format = "jjjj"
+        pack_format = "iiii"
         decrypt = struct.unpack(pack_format, encrypt)
         return decrypt

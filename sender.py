@@ -50,6 +50,10 @@ TIME_OUT = 1000
 CONNECTION_WAIT = 5
 #is the connection time wait
 
+DATA_LEN_MAX = 512
+DATA_LEN_MIN = 0
+#Max and min for data_len to avoid having more magic numbers
+
 
 #===============================================================================
 #Functions
