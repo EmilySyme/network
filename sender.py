@@ -87,7 +87,7 @@ def param_check(port_sender_in, port_sender_out, port_c_sender_in, filename):
 
 #===========================================
 
-def create_bind_connect():
+def create_bind_connect(port_sender_in, port_sender_out, port_c_sender_in):
     """creates the socket, binds the socket, and connects the sockets"""
        
     #APPARENTLY we could just leave all of these as socket.socket();
@@ -105,11 +105,11 @@ def create_bind_connect():
     
     
     #bind:
-    socket_sender_in.bind(IP_ADDRESS, port_sender_in)
-    socket_sender_out.bind(IP_ADDRESS, port_sender_out)
+    socket_sender_in.bind((IP_ADDRESS, port_sender_in))
+    socket_sender_out.bind((IP_ADDRESS, port_sender_out))
     
     #connect:
-    socket_sender_out.connect(IP_ADDRESS, port_c_sender_in)
+    socket_sender_out.connect((IP_ADDRESS, port_c_sender_in))
     print("check me fam")
     
     
@@ -201,7 +201,7 @@ def sender_main():
     param_check_truth = param_check(args.p_s_in, args.p_s_out, args.p_c_s_in, args.fname)
     if param_check_truth:
         data_content = openfile()
-        creation_binding_connection = create_bind_connect()
+        creation_binding_connection = create_bind_connect(args.p_s_in, args.p_s_out, args.p_c_s_in)
         _next, exit_flag, counter = initialisation()
         outer_loop(_next, exit_flag, data_content)
         inner_loop(counter,_next, exit_flag, data_content)
