@@ -27,7 +27,7 @@ import sys
 
 
 #===========================================
-#Variables
+#GLOBAL Variables
 #===========================================
 MAGIC_NO = 0x497E
 #The magic number
@@ -41,6 +41,9 @@ IP_ADDRESS = "127.0.0.1"
 
 TIME_OUT = 1000
 #Is the timeout time in milliseconds
+
+CONNECTION_WAIT = 5
+#is the connection time wait
 
 
 #===============================================================================
@@ -90,9 +93,14 @@ def create_bind_connect():
     #also lazy
     
     #create:
+    
+    #Connects to socket_chan_sender_out from channel.py
     socket_sender_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    #Connects to socket_chan_sender_in from channel.py via socket_c_sender_in here
     socket_sender_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    #sender.py sends to channel.py through sender_out to c_sender_in
     socket_c_sender_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    
     
     #bind:
     socket_sender_in.bind(IP_ADDRESS, port_sender_in)
@@ -102,9 +110,13 @@ def create_bind_connect():
     socket_sender_out.connect(IP_ADDRESS, port_c_sender_in)
     print("check me fam")
     
+    
+    #maybe put this in a while loop until it connects
+    
     #listen:
-    socket_sender_out.listen(IP_ADDRESS, port_c_sender_in)
-    print("u wanna hook up, bae?")
+    while ((socket_sender_in, add) == False):
+        socket_sender_out.listen(CONNECTION_WAIT)
+        print("u wanna hook up, bae?")
     
     #accept:
     (socket_sender_in, add) = socket_c_sender_in.accept()

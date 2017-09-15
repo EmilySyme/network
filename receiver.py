@@ -23,7 +23,7 @@ import sys
 
 
 #===========================================
-#Variables
+#GLOBAL Variables
 #===========================================
 MAGIC_NO = 0x497E
 #The magic number
@@ -41,6 +41,9 @@ DATA_LEN_MIN = 0
 
 DATA_PACKET = 0
 ACKNOWLEDGEMENT_PACKET = 1
+
+CONNECTION_WAIT = 5
+#is the connection time wait
 
 #===============================================================================
 #Functions

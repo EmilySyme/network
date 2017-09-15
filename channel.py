@@ -29,7 +29,7 @@ import sys
 
 
 #===========================================
-#Variables
+#GLOBAL Variables
 #===========================================
 MAGIC_NO = 0x497E
 #The magic number
@@ -40,6 +40,9 @@ PORT_RANGE = range(1024,64001)
 IP_ADDRESS = "127.0.0.1"
 #So the command line doesn't request an IP address all the time
 #This is the Loopback address for running on localhost
+
+CONNECTION_WAIT = 5
+#is the connection time wait
 
 
 #===============================================================================
