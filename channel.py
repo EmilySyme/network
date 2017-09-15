@@ -124,7 +124,7 @@ def create_bind_connect(port_c_sender_in, port_c_sender_out, port_c_receiver_in,
     (port_receiver_in, add) = socket_chan_receiver_in.accept()
     print("channel connected to receiver woop")
     
-    return socket_chan_sender_in, socket_chan_sender_out, socket_chan_receiver_in, socket_chan_receiver_out
+    return port_sender_in, port_receiver_in, socket_chan_sender_out, socket_chan_receiver_out
 
 #===========================================
 
@@ -174,22 +174,22 @@ def packet_changes(rcvd, P):
 #Main loop of the channel is currently recursive needs to be fixed
 #sockets to connect, listen and accept 
 
-def packet_received_loop(P, socket_chan_sender_in, socket_chan_sender_out, socket_chan_receiver_in, socket_chan_receiver_out):
+def packet_received_loop(P, port_sender_in, port_receiver_in, socket_chan_sender_out, socket_chan_receiver_out):
     """Is the packet_received loop. Runs infinitely, until there is nothing in the input_received[0]"""
-    input_received = select.select([socket_chan_sender_in, socket_chan_receiver_in], [], [])
+    input_received = select.select([port_sender_in, port_receiver_in], [], [])
     
     if input_received[0] == None:
         return
     
     #sender in goes to receiver out    
-    if socket_chan_sender_in in input_received[0]:
-        rcvd_packet = socket_chan_sender_in.recv()
+    if port_sender_in in input_received[0]:
+        rcvd_packet = port_sender_in.recv()
         new_packet = packet_changes(rcvd_packet, P)
         socket_chan_receiver_out.send(new_packet)
         
     #receiver in goes to sender out
-    if socket_chan_receiver_in in input_received[0]:
-        rcvd_packet = socket_chan_receiver_in.recv()
+    if port_receiver_in in input_received[0]:
+        rcvd_packet = port_receiver_in.recv()
         new_packet = packet_changes(rcvd_packet, P)
         socket_chan_sender_out.send(new_packet)
         
@@ -235,8 +235,8 @@ def channel_main():
     #param_check_true = param_check(1024, 1025, 1026, 1027, 1028, 1029, 0)
     
     if param_check_true:
-        chan_sender_in, chan_sender_out, chan_receiver_in, chan_receiver_out =  create_bind_connect(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in)
-        packet_received_loop(args.P, chan_sender_in, chan_sender_out, chan_receiver_in, chan_receiver_out) 
+        chan_sender_in, chan_receiver_in, chan_sender_out, chan_receiver_out =  create_bind_connect(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in)
+        packet_received_loop(args.P, chan_sender_in, chan_receiver_in, chan_sender_out, chan_receiver_out) 
         channel_close(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in)
      
     else:
