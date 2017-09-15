@@ -156,12 +156,14 @@ def bit_errors(data_len):
 def packet_changes(rcvd, P):
     """Changes the packets as required"""
     chan_magic_no, chan_packet_type, chan_seq_no, chan_data_len = packet.decoder(rcvd)
-    
+    print("we're in the packet changes.")
     if ( (chan_magic_no != MAGIC_NO) or
         ( packet_drop(P)) ):
+        print("dropping packet")
         packet_received_loop(P)
         
     else:
+        print("packet ain't dropped")
         new_data_len = bit_errors(rcvd.data_len)
         data_field = packet.packet_head(chan_magic_no, chan_packet_type, chan_seq_no, new_data_len)
         head = data_field.encoder()
@@ -176,20 +178,35 @@ def packet_changes(rcvd, P):
 
 def packet_received_loop(P, port_sender_in, port_receiver_in, socket_chan_sender_out, socket_chan_receiver_out):
     """Is the packet_received loop. Runs infinitely, until there is nothing in the input_received[0]"""
+
     input_received = select.select([port_sender_in, port_receiver_in], [], [])
+
+    input_received = select.select([socket_chan_sender_in, socket_chan_receiver_in], [], [])
+    print("Input received")
+
     
     if input_received[0] == None:
+        print("no input there")
         return
     
     #sender in goes to receiver out    
+
     if port_sender_in in input_received[0]:
         rcvd_packet = port_sender_in.recv()
+
+    if socket_chan_sender_in in input_received[0]:
+        print("socket_chan_sender received")
+        rcvd_packet = socket_chan_sender_in.recv()
         new_packet = packet_changes(rcvd_packet, P)
         socket_chan_receiver_out.send(new_packet)
         
     #receiver in goes to sender out
+
     if port_receiver_in in input_received[0]:
         rcvd_packet = port_receiver_in.recv()
+    if socket_chan_receiver_in in input_received[0]:
+        print("socket_chan_reciever received")
+        rcvd_packet = socket_chan_receiver_in.recv()
         new_packet = packet_changes(rcvd_packet, P)
         socket_chan_sender_out.send(new_packet)
         
@@ -199,6 +216,7 @@ def packet_received_loop(P, port_sender_in, port_receiver_in, socket_chan_sender
 
 def channel_close(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in):
     """Closes all the sockets"""
+    print("closing time.")
     c_sender_in.close()
     c_sender_out.close()
     c_receiver_in.close()

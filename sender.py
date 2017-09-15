@@ -132,6 +132,7 @@ def create_bind_connect(port_sender_in, port_sender_out, port_c_sender_in):
 def openfile(filename):
     """opens the file with a given name, and returns the infile"""
     with open(filename, 'r', encoding="utf8") as infile:
+        print("open file")
         return infile 
 
 #===========================================
@@ -150,6 +151,7 @@ def initialisation():
 def outer_loop(_next, exit_flag, data_content):
     """Initialises the things it needs, then works through the outer loop"""
     n_bytes = 0
+    print("we're in the outer loop")
     while n_bytes < DATA_LEN_MAX:
         
         if n_bytes == 0:
@@ -168,7 +170,7 @@ def outer_loop(_next, exit_flag, data_content):
 def inner_loop(counter, _next, exit_flag, data_content):
     """I summon Inner Loop in attack mode!"""
     packet_rcvd = False
-    
+    print("we're in the inner loop")
     while not packet_rvcd:
         socket_sender_out.send(packet_buffer)
         counter += 1
