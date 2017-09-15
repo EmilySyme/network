@@ -93,11 +93,6 @@ def param_check(port_sender_in, port_sender_out, port_c_sender_in, filename):
 
 def create_bind_connect(port_sender_in, port_sender_out, port_c_sender_in):
     """creates the socket, binds the socket, and connects the sockets"""
-       
-    #APPARENTLY we could just leave all of these as socket.socket();
-    #but leaving it like this for clarity
-    #also lazy
-    
     #create:
     
     #Connects to socket_chan_sender_out from channel.py
@@ -131,7 +126,7 @@ def create_bind_connect(port_sender_in, port_sender_out, port_c_sender_in):
 
 def openfile(filename):
     """opens the file with a given name, and returns the infile"""
-    with open(filename, 'r', encoding="utf8") as infile:
+    with open(filename, 'rb') as infile:
         print("open file")
         return infile 
 

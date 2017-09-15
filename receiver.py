@@ -114,7 +114,7 @@ def create_bind_connect(port_receiver_in, port_receiver_out, port_c_receiver_in)
 def write_file(packet):
     """takes a packet and appends it to the end of the
     receivedpackets.txt file"""
-    receiver_file = open('receivedpackets.txt', 'a')
+    receiver_file = open('receivedpackets.txt', 'wb')
     receiver_file.write(packet)  #use this to write to the file
     print("Writing the file yo!!!")
     receiver_file.close() 
