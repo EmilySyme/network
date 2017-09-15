@@ -153,14 +153,14 @@ def bit_errors(data_len):
  
 #===========================================
 
-def packet_changes(rcvd, P):
+def packet_changes(rcvd, P, port_send_in, port_recc_in, socket_chan_send_in, socket_chan_recc_out):
     """Changes the packets as required"""
     chan_magic_no, chan_packet_type, chan_seq_no, chan_data_len = packet.decoder(rcvd)
     print("we're in the packet changes.")
     if ( (chan_magic_no != MAGIC_NO) or
         ( packet_drop(P)) ):
         print("dropping packet")
-        packet_received_loop(P, port_sender_in, port_receiver_in, socket_chan_sender_out, socket_chan_receiver_out)
+        packet_received_loop(P, port_send_in, port_recc_in, socket_chan_send_in, socket_chan_recc_out)
         
     else:
         print("packet ain't dropped")
@@ -176,10 +176,10 @@ def packet_changes(rcvd, P):
 #Main loop of the channel is currently recursive needs to be fixed
 #sockets to connect, listen and accept 
 
-def packet_received_loop(P, port_sender_in, port_receiver_in, socket_chan_sender_out, socket_chan_receiver_out):
+def packet_received_loop(P, port_send_in, port_recc_in, socket_chan_send_in, socket_chan_recc_out):
     """Is the packet_received loop. Runs infinitely, until there is nothing in the input_received[0]"""
 
-    input_received, writeable, error = select.select([port_sender_in, port_receiver_in], [], [], CONNECTION_WAIT)
+    input_received, writeable, error = select.select([port_send_in, port_recc_in], [], [], CONNECTION_WAIT)
 
     print("Input received")
 
@@ -190,24 +190,24 @@ def packet_received_loop(P, port_sender_in, port_receiver_in, socket_chan_sender
     
     #sender in goes to receiver out    
 
-    if port_sender_in in input_received:
-        rcvd_packet = port_sender_in.recv()
+    if port_send_in in input_received:
+        rcvd_packet = port_send_in.recv()
 
-    if socket_chan_sender_in in input_received:
+    if socket_chan_send_in in input_received:
         print("socket_chan_sender received")
-        rcvd_packet = socket_chan_sender_in.recv()
-        new_packet = packet_changes(rcvd_packet, P)
-        socket_chan_receiver_out.send(new_packet)
+        rcvd_packet = socket_chan_send_in.recv()
+        new_packet = packet_changes(rcvd_packet, P, port_send_in, port_recc_in, socket_chan_send_in, socket_chan_recc_out)
+        socket_chan_recc_out.send(new_packet)
         
     #receiver in goes to sender out
 
-    if port_receiver_in in input_received:
-        rcvd_packet = port_receiver_in.recv()
-    if socket_chan_receiver_in in input_received:
-        print("socket_chan_reciever received")
-        rcvd_packet = socket_chan_receiver_in.recv()
-        new_packet = packet_changes(rcvd_packet, P)
-        socket_chan_sender_out.send(new_packet)
+    if port_recc_in in input_received:
+        rcvd_packet = port_recc_in.recv()
+    if port_recc_in in input_received:
+        print("port_chan_reciever received")
+        rcvd_packet = socket_chan_recc_in.recv()
+        new_packet = packet_changes(rcvd_packet, P, port_send_in, port_recc_in, socket_chan_send_in, socket_chan_recc_out)
+        socket_chan_send_out.send(new_packet)
         
     #packet_received_loop(P)
 
