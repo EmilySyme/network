@@ -160,7 +160,7 @@ def packet_changes(rcvd, P):
     if ( (chan_magic_no != MAGIC_NO) or
         ( packet_drop(P)) ):
         print("dropping packet")
-        packet_received_loop(P)
+        packet_received_loop(P, port_sender_in, port_receiver_in, socket_chan_sender_out, socket_chan_receiver_out)
         
     else:
         print("packet ain't dropped")
@@ -184,16 +184,16 @@ def packet_received_loop(P, port_sender_in, port_receiver_in, socket_chan_sender
     print("Input received")
 
     
-    if input_received[0] == None:
+    if input_received == None:
         print("no input there")
         return
     
     #sender in goes to receiver out    
 
-    if port_sender_in in input_received[0]:
+    if port_sender_in in input_received:
         rcvd_packet = port_sender_in.recv()
 
-    if socket_chan_sender_in in input_received[0]:
+    if socket_chan_sender_in in input_received:
         print("socket_chan_sender received")
         rcvd_packet = socket_chan_sender_in.recv()
         new_packet = packet_changes(rcvd_packet, P)
@@ -201,9 +201,9 @@ def packet_received_loop(P, port_sender_in, port_receiver_in, socket_chan_sender
         
     #receiver in goes to sender out
 
-    if port_receiver_in in input_received[0]:
+    if port_receiver_in in input_received:
         rcvd_packet = port_receiver_in.recv()
-    if socket_chan_receiver_in in input_received[0]:
+    if socket_chan_receiver_in in input_received:
         print("socket_chan_reciever received")
         rcvd_packet = socket_chan_receiver_in.recv()
         new_packet = packet_changes(rcvd_packet, P)
