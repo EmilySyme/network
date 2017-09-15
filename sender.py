@@ -19,7 +19,7 @@ import random
 import select
 #Is the equivalent of C's select()
 
-import socket
+from socket import socket
 #Needed for sockets
 
 import sys

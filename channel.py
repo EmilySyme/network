@@ -18,7 +18,7 @@ import random  # is for the random number generator, returns float
 
 import select  # Is the equivalent of C's select()
 
-import socket  # Needed for sockets
+from socket import socket  # Needed for sockets
 
 import sys  # Needed to close things properly, amongst other things
 
@@ -209,28 +209,28 @@ def channel_close(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, send
 
 def channel_main():
     """Runs the channels"""
-    parser = argparse.ArgumentParser()
+    #parser = argparse.ArgumentParser()
     
-    parser.add_argument("c_sender_in", help="The channel's sender in port number; 1024 <= port <= 64001",
-                        type=int)
-    parser.add_argument("c_sender_out", help="The channel's sender out port number; 1024 <= port <= 64001",
-                        type=int)
-    parser.add_argument("c_receiver_in", help="The channel's receiver in port number; 1024 <= port <= 64001",
-                        type=int) 
-    parser.add_argument("c_receiver_out", help="The channel's receiver out port number; 1024 <= port <= 64001",
-                        type=int)
-    parser.add_argument("sender_in", help="The sender in port number; 1024 <= port <= 64001",
-                        type=int)
-    parser.add_argument("receiver_in", help="The receiver in port number; 1024 <= port <= 64001",
-                        type=int)    
-    parser.add_argument("P", help="The channel's packet loss rate; 0 <= P < 1",
-                        type=float)       
-    args = parser.parse_args()
+    #parser.add_argument("c_sender_in", help="The channel's sender in port number; 1024 <= port <= 64001",
+                        #type=int)
+    #parser.add_argument("c_sender_out", help="The channel's sender out port number; 1024 <= port <= 64001",
+                        #type=int)
+    #parser.add_argument("c_receiver_in", help="The channel's receiver in port number; 1024 <= port <= 64001",
+                        #type=int) 
+    #parser.add_argument("c_receiver_out", help="The channel's receiver out port number; 1024 <= port <= 64001",
+                        #type=int)
+    #parser.add_argument("sender_in", help="The sender in port number; 1024 <= port <= 64001",
+                        #type=int)
+    #parser.add_argument("receiver_in", help="The receiver in port number; 1024 <= port <= 64001",
+                        #type=int)    
+    #parser.add_argument("P", help="The channel's packet loss rate; 0 <= P < 1",
+                        #type=float)       
+    #args = parser.parse_args()
     
+    #param_check_true = param_check(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in, args.P)
     
-    #c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in, P = cmd_input()
-    
-    param_check_true = param_check(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in, args.P)
+    #This is for testing
+    param_check_true = param_check(1024, 1025, 1026, 1027, 1028, 1029, 0)
     
     if param_check_true:
         create_bind_connect()

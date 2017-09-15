@@ -55,12 +55,12 @@ class packet_head():
         self.data_len = data_len
         self.pack_format = "iiii"
         
-    def encrypter(self):
+    def encoder(self):
         """I mean I think"""
         encrypt = struct.pack(self.pack_format, self.magic_no, self.pack_type, self.seq_no, self.data_len)
         return encrypt
         
-    def decrypter(encrypt):
+    def decoder(encrypt):
         """I mean I think"""
         pack_format = "iiii"
         decrypt = struct.unpack(pack_format, encrypt)
