@@ -45,26 +45,15 @@ CONNECTION_WAIT = 5
 #===============================================================================
 #Functions
 #===========================================
-print("checking port numbers")
+
 def port_num(port):
     """Checks that each individiual port number is in the correct port range"""
+    print("checking port numbers")
     if port not in PORT_RANGE:
         return False
     else:
         return True
 
-#===========================================
-
-def cmd_input():
-    """Import information from the command line"""
-    print("now taking input")
-    command_input = argparse.ArgumentParser()
-    group = command_input.add_mutually_exclusive_group(required=True)
-    args = command_input.parse_args()
-    print("is input on")
-    print(command_input)
-    return command_input
-    
 #===========================================
 
 def param_check(port_c_sender_in, port_c_sender_out, port_r_sender_in, port_r_sender_out, port_sender_in, port_receiver_in, P):
@@ -220,24 +209,30 @@ def channel_close(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, send
 
 def channel_main():
     """Runs the channels"""
-    
+    print("now taking input")
     parser = argparse.ArgumentParser()
+    
     parser.add_argument("c_sender_in", help="The channel's sender in port number; 1024 <= port <= 64001",
                         type=int)
-    parser.add_argument("c_sender_in", help="The channel's sender out port number; 1024 <= port <= 64001",
+    parser.add_argument("c_sender_out", help="The channel's sender out port number; 1024 <= port <= 64001",
                         type=int)
     parser.add_argument("c_receiver_in", help="The channel's receiver in port number; 1024 <= port <= 64001",
                         type=int) 
     parser.add_argument("c_receiver_out", help="The channel's receiver out port number; 1024 <= port <= 64001",
                         type=int)
+    parser.add_argument("sender_in", help="The sender in port number; 1024 <= port <= 64001",
+                        type=int)
+    parser.add_argument("receiver_in", help="The receiver in port number; 1024 <= port <= 64001",
+                        type=int)    
     parser.add_argument("P", help="The channel's packet loss rate; 0 <= P < 1",
-                        type=int)       
+                        type=float)       
     args = parser.parse_args()
+    print("is input on????")
     
     
     #c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in, P = cmd_input()
     
-    param_check_true = param_check(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in, P)
+    param_check_true = param_check(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in, P)
     
     if param_check_true:
         print("everything fine yo!")
