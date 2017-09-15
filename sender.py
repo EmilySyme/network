@@ -19,7 +19,7 @@ import random
 import select
 #Is the equivalent of C's select()
 
-from socket import socket
+import socket
 #Needed for sockets
 
 import sys
@@ -70,15 +70,19 @@ def port_num(port):
 
 def filename_exists(filename):
     """Check if file by that name exists"""
+    
     if os.path.isfile(filename):
+        print("filename found yay")
         return True
     else:
+        print("filename not found")
         return False
 
 #===========================================
 
 def param_check(port_sender_in, port_sender_out, port_c_sender_in, filename):
     """Just returns true if all of the parameters required are true"""
+    
     if ( (port_num(port_sender_in)) and
          (port_num(port_sender_out)) and
          (port_num(port_c_sender_in)) and
@@ -97,11 +101,11 @@ def create_bind_connect(port_sender_in, port_sender_out, port_c_sender_in):
     #create:
     
     #Connects to socket_chan_sender_out from channel.py
-    socket_sender_in = socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket_sender_in = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     #Connects to socket_chan_sender_in from channel.py via socket_c_sender_in here
-    socket_sender_out = socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket_sender_out = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     #sender.py sends to channel.py through socket_sender_out to socket_chan_sender_in via socket_c_sender_in
-    socket_c_sender_in = socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket_c_sender_in = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
     
     #bind:
@@ -196,11 +200,13 @@ def sender_main():
     parser.add_argument("p_c_s_in", type=int, help="channel socket")
     parser.add_argument("fname", type=str, help="filename wanting to be sent")
     args = parser.parse_args()
-   
+    
     
     param_check_truth = param_check(args.p_s_in, args.p_s_out, args.p_c_s_in, args.fname)
+    
     if param_check_truth:
-        data_content = openfile()
+        
+        data_content = openfile(args.fname)
         creation_binding_connection = create_bind_connect(args.p_s_in, args.p_s_out, args.p_c_s_in)
         _next, exit_flag, counter = initialisation()
         outer_loop(_next, exit_flag, data_content)

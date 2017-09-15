@@ -18,8 +18,7 @@ import random  # is for the random number generator, returns float
 
 import select  # Is the equivalent of C's select()
 
-#from socket import socket  # Needed for sockets
-import socket
+import socket  # Needed for sockets
 
 import sys  # Needed to close things properly, amongst other things
 
