@@ -124,7 +124,7 @@ def create_bind_connect(port_c_sender_in, port_c_sender_out, port_c_receiver_in,
     (port_receiver_in, add) = socket_chan_receiver_in.accept()
     print("channel connected to receiver woop")
     
-    return port_sender_in, port_receiver_in, socket_chan_sender_out, socket_chan_receiver_out
+    return port_sender_in, port_receiver_in, socket_chan_sender_out, socket_chan_receiver_out, port_sender_in, port_receiver_in
 
 #===========================================
 
@@ -213,7 +213,7 @@ def packet_received_loop(P, port_send_in, port_recc_in, socket_chan_send_in, soc
 
 #===========================================
 
-def channel_close(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in):
+def channel_close(c_sender_in, c_receiver_in, c_sender_out, c_receiver_out, sender_in, receiver_in):
     """Closes all the sockets"""
     print("closing time.")
     c_sender_in.close()
@@ -252,9 +252,9 @@ def channel_main():
     #param_check_true = param_check(1024, 1025, 1026, 1027, 1028, 1029, 0)
     
     if param_check_true:
-        chan_sender_in, chan_receiver_in, chan_sender_out, chan_receiver_out =  create_bind_connect(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in)
+        chan_sender_in, chan_receiver_in, chan_sender_out, chan_receiver_out, send_in, recc_in =  create_bind_connect(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in)
         packet_received_loop(args.P, chan_sender_in, chan_receiver_in, chan_sender_out, chan_receiver_out) 
-        channel_close(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in)
+        channel_close(chan_sender_in, chan_receiver_in, chan_sender_out, chan_receiver_out, send_in, recc_in)
      
     else:
         sys.exit()
