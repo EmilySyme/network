@@ -220,7 +220,22 @@ def channel_close(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, send
 
 def channel_main():
     """Runs the channels"""
-    c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in, P = cmd_input()
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument("c_sender_in", help="The channel's sender in port number; 1024 <= port <= 64001",
+                        type=int)
+    parser.add_argument("c_sender_in", help="The channel's sender out port number; 1024 <= port <= 64001",
+                        type=int)
+    parser.add_argument("c_receiver_in", help="The channel's receiver in port number; 1024 <= port <= 64001",
+                        type=int) 
+    parser.add_argument("c_receiver_out", help="The channel's receiver out port number; 1024 <= port <= 64001",
+                        type=int)
+    parser.add_argument("P", help="The channel's packet loss rate; 0 <= P < 1",
+                        type=int)       
+    args = parser.parse_args()
+    
+    
+    #c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in, P = cmd_input()
     
     param_check_true = param_check(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in, P)
     
