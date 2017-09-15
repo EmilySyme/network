@@ -123,6 +123,7 @@ def create_bind_connect(port_sender_in, port_sender_out, port_c_sender_in):
             print("Senpai noticed me!")
             connected = True
         except:
+            print("connection error!")
 
 #===========================================
 
