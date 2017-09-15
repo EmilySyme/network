@@ -107,14 +107,14 @@ def create_bind_connect(port_c_sender_in, port_c_sender_out, port_c_receiver_in,
     #channel needs to listen for that 
     print("senpai plz notice sender")
     
+    #receiver listen
+    socket_chan_receiver_in.listen(CONNECTION_WAIT) #put a time to wait for
+    print("senpai plz notice receiver")
+    
     print("OHAI, channel is connecting")
     #sender connect:
     socket_chan_sender_out.connect((IP_ADDRESS, port_sender_in))
     print("connected channel out")
-    
-    #receiver listen
-    socket_chan_receiver_in.listen(CONNECTION_WAIT) #put a time to wait for
-    print("senpai plz notice receiver")    
     
     #receiver connect
     socket_chan_receiver_out.connect((IP_ADDRESS, port_receiver_in))
