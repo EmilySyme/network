@@ -81,17 +81,17 @@ def create_bind_connect():
     #channel.py sends to sender.py socket_sender_in
     socket_chan_sender_out = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
-    #channel.py receives from receiver.py socket_receiver_out via socket)_c_recever_in
+    #channel.py receives from receiver.py socket_receiver_out via socket)_c_receiver_in
     socket_chan_receiver_in = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     #channel.py sends to receiver.py socket_receiver_in
     socket_chan_receiver_out = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     print("OHAI, channel is binding")
     #bind:
-    socket_chan_sender_in.bind(IP_ADDRESS, port_sender_in)
-    socket_chan_sender_out.bind(IP_ADDRESS, port_sender_out)
-    socket_chan_receiver_in.bind(IP_ADDRESS, port_receiver_in)
-    socket_chan_receiver_out.bind(IP_ADDRESS, port_receiver_out)
+    socket_chan_sender_in.bind(IP_ADDRESS, c_sender_in)
+    socket_chan_sender_out.bind(IP_ADDRESS, c_sender_out)
+    socket_chan_receiver_in.bind(IP_ADDRESS, c_receiver_in)
+    socket_chan_receiver_out.bind(IP_ADDRESS, c_receiver_out)
     
     #probably want this as listen then connect
     #the other two might need to be the opposite to what is in here
@@ -112,9 +112,9 @@ def create_bind_connect():
     
     print("OHAI, channel is connecting")
     #connect:
-    socket_chan_sender_out.connect(IP_ADDRESS, port_c_sender_in)
+    socket_chan_sender_out.connect(IP_ADDRESS, sender_in)
     print("connected channel out")
-    socket_chan_receiver_out.connect(IP_ADDRESS, port_c_receiver_in)
+    socket_chan_receiver_out.connect(IP_ADDRESS, receiver_in)
     print("connected receiver out")    
     
     print("OHAI, channel is accepting")
@@ -154,17 +154,17 @@ def bit_errors(data_len):
 
 def packet_changes(rcvd, P):
     """Changes the packets as required"""
-    chan_magic_no, chan_packet_type, chan_seq_no, chan_data_len = packet.decoder(rcvd_packet)
+    chan_magic_no, chan_packet_type, chan_seq_no, chan_data_len = packet.decoder(rcvd)
     
     if ( (chan_magic_no != MAGIC_NO) or
-        (packet_drop(P)) ):
+        ( packet_drop(P)) ):
         packet_received_loop(P)
         
     else:
-        new_data_len = bit_errors(data_len)
+        new_data_len = bit_errors(rcvd.data_len)
         data_field = packet.packet_head(chan_magic_no, chan_packet_type, chan_seq_no, new_data_len)
-        head = data_field.encrptyer()
-        packet_buffer = bytearray(head + data_content)  
+        head = data_field.encoder()
+        packet_buffer = bytearray(head + rcvd.data_content)  
         return packet_buffer
 
 #===========================================
@@ -177,7 +177,7 @@ def packet_received_loop(P):
     """Is the packet_received loop. Runs infinitely, until there is nothing in the input_received[0]"""
     input_received = select.select([socket_chan_sender_in, socket_chan_receiver_in], [], [])
     
-    if input_received[0] == NULL:
+    if input_received[0] == None:
         return
     
     #sender in goes to receiver out    
@@ -210,28 +210,28 @@ def channel_close(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, send
 
 def channel_main():
     """Runs the channels"""
-    #parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser()
     
-    #parser.add_argument("c_sender_in", help="The channel's sender in port number; 1024 <= port <= 64001",
-                        #type=int)
-    #parser.add_argument("c_sender_out", help="The channel's sender out port number; 1024 <= port <= 64001",
-                        #type=int)
-    #parser.add_argument("c_receiver_in", help="The channel's receiver in port number; 1024 <= port <= 64001",
-                        #type=int) 
-    #parser.add_argument("c_receiver_out", help="The channel's receiver out port number; 1024 <= port <= 64001",
-                        #type=int)
-    #parser.add_argument("sender_in", help="The sender in port number; 1024 <= port <= 64001",
-                        #type=int)
-    #parser.add_argument("receiver_in", help="The receiver in port number; 1024 <= port <= 64001",
-                        #type=int)    
-    #parser.add_argument("P", help="The channel's packet loss rate; 0 <= P < 1",
-                        #type=float)       
-    #args = parser.parse_args()
+    parser.add_argument("c_sender_in", help="The channel's sender in port number; 1024 <= port <= 64001",
+                        type=int)
+    parser.add_argument("c_sender_out", help="The channel's sender out port number; 1024 <= port <= 64001",
+                        type=int)
+    parser.add_argument("c_receiver_in", help="The channel's receiver in port number; 1024 <= port <= 64001",
+                        type=int) 
+    parser.add_argument("c_receiver_out", help="The channel's receiver out port number; 1024 <= port <= 64001",
+                        type=int)
+    parser.add_argument("sender_in", help="The sender in port number; 1024 <= port <= 64001",
+                        type=int)
+    parser.add_argument("receiver_in", help="The receiver in port number; 1024 <= port <= 64001",
+                        type=int)    
+    parser.add_argument("P", help="The channel's packet loss rate; 0 <= P < 1",
+                        type=float)       
+    args = parser.parse_args()
     
-    #param_check_true = param_check(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in, args.P)
+    param_check_true = param_check(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in, args.P)
     
     #This is for testing
-    param_check_true = param_check(1024, 1025, 1026, 1027, 1028, 1029, 0)
+    #param_check_true = param_check(1024, 1025, 1026, 1027, 1028, 1029, 0)
     
     if param_check_true:
         create_bind_connect()

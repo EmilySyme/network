@@ -116,9 +116,8 @@ def create_bind_connect():
     #maybe put this in a while loop until it connects
     
     #listen:
-    while ((socket_sender_in, add) == False):
-        socket_sender_out.listen(CONNECTION_WAIT)
-        print("u wanna hook up, bae?")
+    socket_sender_out.listen(CONNECTION_WAIT)
+    print("u wanna hook up, bae?")
     
     #accept:
     (socket_sender_in, add) = socket_c_sender_in.accept()
