@@ -21,6 +21,12 @@ import socket
 import sys
 #Needed to close things properly, amongst other things
 
+import argparse
+#Needed for reading from standard input 
+
+import os.path
+#Needed for checking path of file
+
 
 #===========================================
 #GLOBAL Variables
@@ -55,13 +61,6 @@ def port_num(port):
         return False
     else:
         return True
-
-#===========================================
-
-def cmd_input():
-    """Import information from the command line"""
-    command_input = sys.stdin
-    return command_input
 
 #===========================================
 
@@ -150,9 +149,14 @@ def call_loop(expected):
 def receiver_main():
     """Runs the receiver"""
     
-    p_r_in, p_r_out, p_r_s_in, fname = cmd_input()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("p_r_in", type=int, help="receiver socket in")
+    parser.add_argument("p_r_out", type=int, help="receiver socket out") 
+    parser.add_argument("p_r_s_in", type=int, help="channel socket")
+    args = parser.parse_args()    
+
     
-    param_check_truth = param_check(p_r_in, p_r_out, p_r_s_in, fname)
+    param_check_truth = param_check(args.p_r_in, args.p_r_out, args.p_r_s_in)
     
     if param_check_truth:
         data_write = write_file(fname)

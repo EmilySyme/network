@@ -28,6 +28,8 @@ import sys
 import argparse
 #Needed for reading from standard input 
 
+import os.path
+#Needed for checking path of file 
 
 #===========================================
 #GLOBAL Variables
@@ -59,18 +61,6 @@ def port_num(port):
         return False
     else:
         return True
-
-#===========================================
-
-#def cmd_input():
-#    """Import information from the command line"""
-#    parser = argparse.ArgumentParser()
-#    args = parser.parse_args()
-#    parser.add_argument("x", type=int, help="the base")
-#    parser.add_argument("y", type=int, help="the exponent")    
-#    print("Printing args")
-#    print(args)
-#    return args
 
 #===========================================
 
@@ -196,7 +186,6 @@ def inner_loop(counter, _next, exit_flag, data_content):
 
 def sender_main():
     """runs the code"""
-    #p_s_in, p_s_out, p_c_s_in, fname = cmd_input()
     
     parser = argparse.ArgumentParser()
     parser.add_argument("p_s_in", type=int, help="sender socket in")
