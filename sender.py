@@ -107,17 +107,21 @@ def create_bind_connect(port_sender_in, port_sender_out, port_c_sender_in):
     socket_sender_in.bind((IP_ADDRESS, port_sender_in))
     socket_sender_out.bind((IP_ADDRESS, port_sender_out))
     
-    #connect:
-    socket_sender_out.connect((IP_ADDRESS, port_c_sender_in))
-    print("check me fam")        
-    
-    #listen:
-    socket_sender_out.listen(CONNECTION_WAIT)
-    print("u wanna hook up, bae?")
-    
-    #accept:
-    (socket_sender_in, add) = socket_c_sender_in.accept()
-    print("Senpai noticed me!")
+    connected = False
+    while not connected:
+        try:    
+            #connect:
+            socket_sender_out.connect((IP_ADDRESS, port_c_sender_in))
+            print("check me fam")        
+            
+            #listen:
+            socket_sender_out.listen(CONNECTION_WAIT)
+            print("u wanna hook up, bae?")
+            
+            #accept:
+            (socket_sender_in, add) = socket_c_sender_in.accept()
+            print("Senpai noticed me!")
+            connected = True
 
 #===========================================
 

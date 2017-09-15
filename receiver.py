@@ -96,17 +96,21 @@ def create_bind_connect(port_receiver_in, port_receiver_out, port_c_receiver_in)
     socket_receiver_in.bind((IP_ADDRESS, port_receiver_in))
     socket_receiver_out.bind((IP_ADDRESS, port_receiver_out))
     
-    #connect:
-    socket_receiver_out.connect((IP_ADDRESS, port_c_receiver_in))
-    print("receiver connected with senpai")    
-    
-    #listen:
-    socket_receiver_out.listen(CONNECTION_WAIT)
-    print("senpai plz notice receiver")
-    
-    #accept:
-    (socket_receiver_in, add) = socket_c_receiver_in.accept()
-    print("senpai accepted receiver")
+    connected = False
+    while not connected:
+        try:
+            #connect:
+            socket_receiver_out.connect((IP_ADDRESS, port_c_receiver_in))
+            print("receiver connected with senpai")
+        
+            #listen:
+            socket_receiver_out.listen(CONNECTION_WAIT)
+            print("senpai plz notice receiver")
+            
+            #accept:
+            (socket_receiver_in, add) = socket_c_receiver_in.accept()
+            print("senpai accepted receiver")
+            connected = True
         
 
 #===========================================
