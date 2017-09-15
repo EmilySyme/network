@@ -91,14 +91,14 @@ def create_bind_connect():
     
     #create:
     #channel.py receives from sender.py socket_sender_out via socket_c_sender_in
-    socket_chan_sender_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_chan_sender_in = socket(family=socket.AF_INET, socket.SOCK_STREAM)
     #channel.py sends to sender.py socket_sender_in
-    socket_chan_sender_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_chan_sender_out = socket(family=socket.AF_INET, socket.SOCK_STREAM)
     
     #channel.py receives from receiver.py socket_receiver_out via socket)_c_recever_in
-    socket_chan_receiver_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_chan_receiver_in = socket(family=socket.AF_INET, socket.SOCK_STREAM)
     #channel.py sends to receiver.py socket_receiver_in
-    socket_chan_receiver_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_chan_receiver_out = socket(family=socket.AF_INET, socket.SOCK_STREAM)
 
     #bind:
     socket_chan_sender_in.bind(IP_ADDRESS, port_sender_in)

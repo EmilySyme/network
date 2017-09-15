@@ -77,11 +77,11 @@ def param_check(port_receiver_in, port_receiver_out, port_c_receiver_in):
 def create_bind_connect():
     #create:
     #Connects to socket_chan_receiver_out from channel.py
-    socket_receiver_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_receiver_in = socket(family=socket.AF_INET, socket.SOCK_STREAM)
     #Connects to socket_chan_receiver_in from channel.py via socket_c_receiver_in here
-    socket_receiver_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_receiver_out = socket(family=socket.AF_INET, socket.SOCK_STREAM)
     #receiver.py sends to channel.py through socket_receiver_out to socket_chan_receiver_in via socket)_c_recever_in
-    socket_c_receiver_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    socket_c_receiver_in = socket(family=socket.AF_INET, socket.SOCK_STREAM)
     
     #bind:
     socket_receiver_in.bind(IP_ADDRESS, port_receiver_in)
