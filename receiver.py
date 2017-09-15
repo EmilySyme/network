@@ -112,7 +112,7 @@ def create_bind_connect(port_receiver_in, port_receiver_out, port_c_receiver_in)
             print("senpai accepted receiver")
             connected = True
         except:
-            
+            print("connection error!")
         
 
 #===========================================
