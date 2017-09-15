@@ -118,15 +118,16 @@ def create_bind_connect():
     #maybe put this in a while loop until it connects
     
     #listen:
-    socket_chan_sender_out.listen(CONNECTION_WAIT)
+    socket_chan_sender_in.listen(CONNECTION_WAIT)
     #so the one that is being connected needs to be listened for in the next one 
     #so whatever sender is sending out to connect to channel,
     #channel needs to listen for that 
     print("senpai plz notice sender")
-    socket_chan_receiver_out.listen(CONNECTION_WAIT) #put a time to wait for
+    socket_chan_receiver_in.listen(CONNECTION_WAIT) #put a time to wait for
     print("senpai plz notice receiver")
     
     #accept:
+    ##shouldn't these be socket_chan_receiver_in?
     (port_c_sender_in, add) = socket_chan_sender_out.accept()
     print("channel connected from sender yeeeeee boiiii")
     (port_c_receiver_in, add) = socket_chan_receiver_out.accept()
@@ -175,6 +176,10 @@ def packet_changes(rcvd, P):
         return packet_buffer
 
 #===========================================
+
+#argparse
+#Main loop of the channel is currently recursive needs to be fixed
+#sockets to connect, listen and accept 
 
 def packet_received_loop(P):
     """Is the packet_received loop. Runs infinitely, until there is nothing in the input_received[0]"""
