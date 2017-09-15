@@ -116,12 +116,14 @@ def write_file(packet):
     receivedpackets.txt file"""
     receiver_file = open('receivedpackets.txt', 'a')
     receiver_file.write(packet)  #use this to write to the file
+    print("Writing the file yo!!!")
     receiver_file.close() 
 
 #===========================================
 
 def acknowledged(seq_no):
     """"""
+    print("acknowledging packet")
     acknowledge_packet = packet.packet_head(MAGIC_NO, ACKNOWLEDGEMENT_PACKET, seq_no, 0)
     head = acknowledge_packet.encoder()
     packet_buffer = bytearray(head)
@@ -132,14 +134,16 @@ def acknowledged(seq_no):
 def call_loop(expected):
     """"""
     #I think this might be how to do it; apparently select can be blocking too, from the stuff in the assignment info
-    rcvd_packet = select.select([socket_receiver_in], [], [])
-    rcvd_magic_no, rcvd_type, rcvd_seq_no, rcvd_data_len = packet.decoder(rcvd_packet)
+    print("calling loop")
+    rcvd = select.select([socket_receiver_in], [], [])
+    rcvd_magic_no, rcvd_type, rcvd_seq_no, rcvd_data_len = packet.decoder(rcvd)
     if ( (magic_no != MAGIC_NO) or
         (packet_type != DATA_PACKET) ):
         call_loop(expected)
     else:
         acknowledged(rcvd_seq_no)
         if (rcvd_seq_no != expected):
+            print("seq no wrong")
             call_loop(expected)
         else:
             expected = 1 - expected
@@ -147,7 +151,7 @@ def call_loop(expected):
                 write_file(rcvd_packet)
                 call_loop(expected)
             else:
-                #close all the things
+                print("Closing receiver sockets")
                 socket_receiver_in.close()
                 socket_receiver_out.close()                
                 return
