@@ -57,13 +57,13 @@ def port_num(port):
 
 #===========================================
 
-def param_check(port_c_sender_in, port_c_sender_out, port_r_sender_in, port_r_sender_out, port_sender_in, port_receiver_in, P):
+def param_check(port_c_sender_in, port_c_sender_out, port_c_receiver_in, port_c_receiver_out, port_sender_in, port_receiver_in, P):
     print("Now checking parameters")
     """Just returns true if all of the parameters required are true"""
     if ( (port_num(port_c_sender_in)) and
          (port_num(port_c_sender_out)) and
-         (port_num(port_r_sender_in)) and
-         (port_num(port_r_sender_out)) and
+         (port_num(port_c_receiver_in)) and
+         (port_num(port_c_receiver_out)) and
          (port_num(port_sender_in)) and
          (port_num(port_receiver_in)) and
          (0 <= P < 1) ):
@@ -71,7 +71,7 @@ def param_check(port_c_sender_in, port_c_sender_out, port_r_sender_in, port_r_se
 
 #===========================================
 
-def create_bind_connect():
+def create_bind_connect(port_c_sender_in, port_c_sender_out, port_c_receiver_in, port_c_receiver_out, port_sender_in, port_receiver_in,):
     """creates the socket, binds the socket, and connects the sockets""" 
     
     print("OHAI, channel is creating")
@@ -88,10 +88,10 @@ def create_bind_connect():
 
     print("OHAI, channel is binding")
     #bind:
-    socket_chan_sender_in.bind(IP_ADDRESS, c_sender_in)
-    socket_chan_sender_out.bind(IP_ADDRESS, c_sender_out)
-    socket_chan_receiver_in.bind(IP_ADDRESS, c_receiver_in)
-    socket_chan_receiver_out.bind(IP_ADDRESS, c_receiver_out)
+    socket_chan_sender_in.bind((IP_ADDRESS, port_c_sender_in))
+    socket_chan_sender_out.bind((IP_ADDRESS, port_c_sender_out))
+    socket_chan_receiver_in.bind((IP_ADDRESS, port_c_receiver_in))
+    socket_chan_receiver_out.bind((IP_ADDRESS, port_c_receiver_out))
     
     #probably want this as listen then connect
     #the other two might need to be the opposite to what is in here
@@ -112,17 +112,17 @@ def create_bind_connect():
     
     print("OHAI, channel is connecting")
     #connect:
-    socket_chan_sender_out.connect(IP_ADDRESS, sender_in)
+    socket_chan_sender_out.connect((IP_ADDRESS, port_sender_in))
     print("connected channel out")
-    socket_chan_receiver_out.connect(IP_ADDRESS, receiver_in)
+    socket_chan_receiver_out.connect((IP_ADDRESS, port_receiver_in))
     print("connected receiver out")    
     
     print("OHAI, channel is accepting")
     #accept:
     ##shouldn't these be socket_chan_receiver_in?
-    (port_c_sender_in, add) = socket_chan_sender_out.accept()
+    (port_sender_in, add) = socket_chan_sender_out.accept()
     print("channel connected from sender yeeeeee boiiii")
-    (port_c_receiver_in, add) = socket_chan_receiver_out.accept()
+    (port_receiver_in, add) = socket_chan_receiver_out.accept()
     print("channel connected to receiver woop")
 
 #===========================================
@@ -234,7 +234,7 @@ def channel_main():
     #param_check_true = param_check(1024, 1025, 1026, 1027, 1028, 1029, 0)
     
     if param_check_true:
-        create_bind_connect()
+        create_bind_connect(args.c_sender_in, args.c_sender_out, args.c_receiver_in, args.c_receiver_out, args.sender_in, args.receiver_in)
         packet_received_loop(P) 
         channel_close(c_sender_in, c_sender_out, c_receiver_in, c_receiver_out, sender_in, receiver_in)
      
