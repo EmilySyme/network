@@ -105,12 +105,12 @@ def create_bind_connect():
     #maybe put this in a while loop until it connects
     
     #listen:
-    socket_chan_sender_out.listen(5)
+    socket_chan_sender_out.listen(CONNECTION_WAIT)
     #so the one that is being connected needs to be listened for in the next one 
     #so whatever sender is sending out to connect to channel,
     #channel needs to listen for that 
     print("senpai plz notice sender")
-    socket_chan_receiver_out.listen(5) #put a time to wait for
+    socket_chan_receiver_out.listen(CONNECTION_WAIT) #put a time to wait for
     print("senpai plz notice receiver")
     
     #accept:

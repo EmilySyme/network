@@ -76,8 +76,11 @@ def param_check(port_receiver_in, port_receiver_out, port_c_receiver_in):
 
 def create_bind_connect():
     #create:
+    #Connects to socket_chan_receiver_out from channel.py
     socket_receiver_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    #Connects to socket_chan_receiver_in from channel.py via socket_c_receiver_in here
     socket_receiver_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
+    #receiver.py sends to channel.py through socket_receiver_out to socket_chan_receiver_in
     socket_c_receiver_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
     
     #bind:
@@ -89,7 +92,10 @@ def create_bind_connect():
     print("help me")
     
     #listen:
-    socket_receiver_out.listen(IP_ADDRESS, port_c_receiver_in)
+    while ((socket_sender_in, add) == False):
+        socket_receiver_out.listen(CONNECTION_WAIT)
+        print("senpai plz notice receiver")
+    
     
     #accept:
     (socket_receiver_in, add) = socket_c_receiver_in.accept()

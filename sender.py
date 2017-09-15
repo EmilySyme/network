@@ -98,7 +98,7 @@ def create_bind_connect():
     socket_sender_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
     #Connects to socket_chan_sender_in from channel.py via socket_c_sender_in here
     socket_sender_out = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
-    #sender.py sends to channel.py through sender_out to c_sender_in
+    #sender.py sends to channel.py through socket_sender_out to socket_chan_sender_in
     socket_c_sender_in = socket.socket(family=socket.AF_INET, socket.SOCK_STREAM)
     
     
