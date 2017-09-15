@@ -179,7 +179,7 @@ def packet_changes(rcvd, P):
 def packet_received_loop(P, port_sender_in, port_receiver_in, socket_chan_sender_out, socket_chan_receiver_out):
     """Is the packet_received loop. Runs infinitely, until there is nothing in the input_received[0]"""
 
-    input_received = select.select([port_sender_in, port_receiver_in], [], [])
+    input_received, writeable, error = select.select([port_sender_in, port_receiver_in], [], [], CONNECTION_WAIT)
 
     print("Input received")
 
