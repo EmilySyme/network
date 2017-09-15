@@ -94,7 +94,6 @@ def create_bind_connect(port_c_sender_in, port_c_sender_out, port_c_receiver_in,
     
     #probably want this as listen then connect
     #the other two might need to be the opposite to what is in here
-    return socket_chan_sender_in, socket_chan_sender_out, socket_chan_receiver_in, socket_chan_receiver_out
     
    
     
