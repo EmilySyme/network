@@ -164,15 +164,17 @@ def outer_loop(_next, exit_flag, data_content):
             head = data_field.encoder()
 
         packet_buffer = bytearray(head + data_content)
+        return packet_buffer
 
 #===========================================
 
-def inner_loop(counter, _next, exit_flag, data_content):
+def inner_loop(counter, _next, exit_flag, data_content, packet_buffer):
     """I summon Inner Loop in attack mode!"""
     packet_rcvd = False
     print("we're in the inner loop")
     while not packet_rvcd:
         socket_sender_out.send(packet_buffer)
+        print("I should be sending a thing right now")
         counter += 1
         rcvd, _, _ = select.select([socket_sender_out], [], [], TIME_OUT)
         if not rcvd:
@@ -211,8 +213,8 @@ def sender_main():
         data_content = openfile(args.fname)
         creation_binding_connection = create_bind_connect(args.p_s_in, args.p_s_out, args.p_c_s_in)
         _next, exit_flag, counter = initialisation()
-        outer_loop(_next, exit_flag, data_content)
-        inner_loop(counter,_next, exit_flag, data_content)
+        packet_buff = outer_loop(_next, exit_flag, data_content)
+        inner_loop(counter,_next, exit_flag, data_content, packet_buff)
         
         #close all the things
         #except for the data_content because that's part of the 'with' function
