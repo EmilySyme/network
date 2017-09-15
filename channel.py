@@ -125,7 +125,7 @@ def create_bind_connect(port_c_sender_in, port_c_sender_out, port_c_receiver_in,
     (port_receiver_in, add) = socket_chan_receiver_in.accept()
     print("channel connected to receiver woop")
     
-    return 
+    return socket_chan_sender_in, socket_chan_sender_out, socket_chan_receiver_in, socket_chan_receiver_out
 
 #===========================================
 
