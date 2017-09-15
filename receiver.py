@@ -92,7 +92,7 @@ def create_bind_connect():
     print("help me")
     
     #listen:
-    while ((socket_sender_in, add) == False):
+    while ((socket_receiver_in, add) == False):
         socket_receiver_out.listen(CONNECTION_WAIT)
         print("senpai plz notice receiver")
     
